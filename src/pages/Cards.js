@@ -1,4 +1,4 @@
-import { collection, getDocs, query, where } from "firebase/firestore/lite";
+import { collection, getDocs } from "firebase/firestore/lite";
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { db } from "..";
@@ -24,36 +24,24 @@ const Card = styled.div`
 
 export default function Cards() {
   const [factions, setFactions] = useState(null);
-  const [units, setUnits] = useState(null);
   const [selectedFaction, setSelectedFaction] = useState(null);
   const [factionsOptions, setFactionsOptions] = useState(null);
   const [cards, setCards] = useState(null);
 
-  const createItemCards = useCallback(
-    (faction) => {
-      return units.map((card) => {
-        return (
-          <Card key={card.slug}>
-            <img
-              src={`${process.env.PUBLIC_URL}/images/${faction.slug}/${card.slug}.jpg`}
-              alt={card.name}
-              width={357}
-              height={500}
-            />
-          </Card>
-        );
-      });
-    },
-    [units]
-  );
-
-  const getItemsCards = useCallback(
-    async (faction) => {
-      const items = createItemCards(faction);
-      setCards(items);
-    },
-    [createItemCards]
-  );
+  const createItemCards = (faction) => {
+    return faction.units.map((card) => {
+      return (
+        <Card key={card.slug}>
+          <img
+            src={`${process.env.PUBLIC_URL}/images/${faction.slug}/${card.slug}.jpg`}
+            alt={card.name}
+            width={357}
+            height={500}
+          />
+        </Card>
+      );
+    });
+  };
 
   useEffect(() => {
     if (factions) {
@@ -73,12 +61,7 @@ export default function Cards() {
       (faction) => event.target.value === faction.slug
     );
     setSelectedFaction(faction);
-    console.log(units);
-    const selectedUnits = units.filter(
-      (unit) => unit.faction_id === faction.id
-    );
-
-    setCards(createItemCards(faction, selectedUnits));
+    setCards(createItemCards(faction));
   };
 
   //   useEffect(() => {
@@ -99,16 +82,22 @@ export default function Cards() {
       const selectedFaction = factionList[0];
       setFactions(factionList);
       setSelectedFaction(selectedFaction);
-      console.log(factionList);
 
       // Cards
       const cardsCol = collection(db, "units");
-      //   const q = query(cardsCol, where("faction_id", "==", faction.id));
       const cardsSnapshot = await getDocs(cardsCol);
-      const cardList = cardsSnapshot.docs.map((doc) => doc.data());
-      setUnits(cardList);
+      const unitList = cardsSnapshot.docs.map((doc) => doc.data());
 
-      //   getItemsCards(selectedFaction);
+      factionList.forEach((faction) => {
+        faction.units = [];
+        unitList.forEach((unit) => {
+          if (faction.id === unit.faction_id) {
+            faction.units.push(unit);
+          }
+        });
+      });
+
+      setCards(createItemCards(selectedFaction));
     };
 
     fetchData().catch((error) => console.log(error));

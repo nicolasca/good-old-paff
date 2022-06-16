@@ -44,6 +44,16 @@ const factionsData = [
     name: "Priana",
     slug: "priana",
   },
+  {
+    id: 7,
+    name: "Gobelins",
+    slug: "gobelins",
+  },
+  {
+    id: 8,
+    name: "Hommes-Lézards",
+    slug: "hommes-lezards",
+  },
 ];
 
 const unitsData = [
@@ -691,6 +701,191 @@ const unitsData = [
     name: "Archanges prianiens",
     slug: "archanges-prianiens",
     faction_id: 6,
+  },
+  {
+    name: "Et ils tombèrent sur un Dieu",
+    slug: "tomberent-sur-dieu",
+    faction_id: 7,
+  },
+  {
+    name: "J'connais un raccourci !",
+    slug: "connais-racccourci",
+    faction_id: 7,
+  },
+  {
+    name: "J'sens bien l'vent là !",
+    slug: "sens-vent",
+    faction_id: 7,
+  },
+  {
+    name: "Lanciers gobelins",
+    slug: "lanciers-gobelins",
+    faction_id: 7,
+  },
+  {
+    name: "Le caillou reconnaitra les siens !",
+    slug: "caillou-reconnaitra-siens",
+    faction_id: 7,
+  },
+  {
+    name: "Furie gobeline",
+    slug: "furie-gobeline",
+    faction_id: 7,
+  },
+  {
+    name: "Gros tarrés de gobelins",
+    slug: "gros-tarres-gobelins",
+    faction_id: 7,
+  },
+  {
+    name: "Bande de gobelins",
+    slug: "bande-gobelins",
+    faction_id: 7,
+  },
+  {
+    name: "Marée verte",
+    slug: "maree-verte",
+    faction_id: 7,
+  },
+  {
+    name: "Archers gobelins",
+    slug: "archers-gobelins",
+    faction_id: 7,
+  },
+  {
+    name: "Boys Bandes",
+    slug: "boys-bandes",
+    faction_id: 7,
+  },
+  {
+    name: "Les Gros sont dans la place !",
+    slug: "gros-dans-place",
+    faction_id: 7,
+  },
+  {
+    name: "Shaman shawag gobelins",
+    slug: "shaman-shawag-gobelins",
+    faction_id: 7,
+  },
+  {
+    name: "Chevaucheurs d'araignées géantes",
+    slug: "chevaucheurs-araignees-geantes",
+    faction_id: 7,
+  },
+  {
+    name: "Chevaucheurs de loups",
+    slug: "chevaucheurs-loups",
+    faction_id: 7,
+  },
+  {
+    name: "Katapul't agob",
+    slug: "katapult-agob",
+    faction_id: 7,
+  },
+  {
+    name: "Katapul't aroche",
+    slug: "katapult-aroche",
+    faction_id: 7,
+  },
+  {
+    name: "Meneurs de trolls",
+    slug: "meneurs-trolls",
+    faction_id: 7,
+  },
+  {
+    name: "Dompteurs de Dieux",
+    slug: "dompteurs-dieux",
+    faction_id: 7,
+  },
+  {
+    name: "La bande du Chef",
+    slug: "bande-chef",
+    faction_id: 7,
+  },
+  {
+    name: "Appel des Slins",
+    slug: "appel-slins",
+    faction_id: 8,
+  },
+  {
+    name: "Déploiement vers le front",
+    slug: "deploiement-front",
+    faction_id: 8,
+  },
+  {
+    name: "Embuscade",
+    slug: "embuscade",
+    faction_id: 8,
+  },
+  {
+    name: "Exaltations des Slins",
+    slug: "exaltation-slins",
+    faction_id: 8,
+  },
+  {
+    name: "Incantation des flux Célestes",
+    slug: "incantation-flux-celestes",
+    faction_id: 8,
+  },
+  {
+    name: "Kalsrann",
+    slug: "kalsrann",
+    faction_id: 8,
+  },
+  {
+    name: "Korlosaur",
+    slug: "korlosaur",
+    faction_id: 8,
+  },
+  {
+    name: "Korrsaurus",
+    slug: "korrsaurus",
+    faction_id: 8,
+  },
+  {
+    name: "Kranns",
+    slug: "kranns",
+    faction_id: 8,
+  },
+  {
+    name: "Lrann et sa garde",
+    slug: "lrann-garde",
+    faction_id: 8,
+  },
+  {
+    name: "Noosaan",
+    slug: "noosaan",
+    faction_id: 8,
+  },
+  {
+    name: "Slae Lrann",
+    slug: "slae-lrann",
+    faction_id: 8,
+  },
+  {
+    name: "Slae-An kranns",
+    slug: "slae-an-kranns",
+    faction_id: 8,
+  },
+  {
+    name: "Slins",
+    slug: "slins",
+    faction_id: 8,
+  },
+  {
+    name: "Sliosuss",
+    slug: "sliosuss",
+    faction_id: 8,
+  },
+  {
+    name: "Srikslins",
+    slug: "srikslins",
+    faction_id: 8,
+  },
+  {
+    name: "Taan Srann",
+    slug: "taann-srann",
+    faction_id: 8,
   },
 ];
 
