@@ -24,23 +24,13 @@ const Card = styled.div`
 
 export default function Cards() {
   const [factions, setFactions] = useState(null);
+  const [units, setUnits] = useState(null);
   const [selectedFaction, setSelectedFaction] = useState(null);
   const [factionsOptions, setFactionsOptions] = useState(null);
   const [cards, setCards] = useState(null);
 
-  const getItemsCards = async (faction) => {
-    // Cards
-    const cardsCol = collection(db, "units");
-    const q = query(cardsCol, where("faction_id", "==", faction.id));
-    const cardsSnapshot = await getDocs(q);
-    const cardList = cardsSnapshot.docs.map((doc) => doc.data());
-
-    const items = createItemCards(cardList);
-    setCards(items);
-  };
-
   const createItemCards = useCallback(
-    (faction, units) => {
+    (faction) => {
       return units.map((card) => {
         return (
           <Card key={card.slug}>
@@ -54,7 +44,15 @@ export default function Cards() {
         );
       });
     },
-    [factions]
+    [units]
+  );
+
+  const getItemsCards = useCallback(
+    async (faction) => {
+      const items = createItemCards(faction);
+      setCards(items);
+    },
+    [createItemCards]
   );
 
   useEffect(() => {
@@ -75,33 +73,46 @@ export default function Cards() {
       (faction) => event.target.value === faction.slug
     );
     setSelectedFaction(faction);
+    console.log(units);
+    const selectedUnits = units.filter(
+      (unit) => unit.faction_id === faction.id
+    );
 
-    const units = unitsData.filter((unit) => unit.faction_id === faction.id);
-
-    setCards(createItemCards(faction, units));
+    setCards(createItemCards(faction, selectedUnits));
   };
 
-  useEffect(() => {
-    const faction = factionsData[0];
-    setFactions(factionsData);
-    setSelectedFaction(faction);
-    const units = unitsData.filter((unit) => unit.faction_id === faction.id);
-    setCards(createItemCards(faction, units));
-  }, [createItemCards]);
-
   //   useEffect(() => {
-  //     const getFactions = async () => {
-  //       // Factions
-  //       const factionsCol = collection(db, "factions");
-  //       const factionsSnapshot = await getDocs(factionsCol);
-  //       const factionList = factionsSnapshot.docs.map((doc) => doc.data());
+  //     const faction = factionsData[0];
+  //     setFactions(factionsData);
+  //     setSelectedFaction(faction);
+  //     const units = unitsData.filter((unit) => unit.faction_id === faction.id);
+  //     setCards(createItemCards(faction, units));
+  //   }, [createItemCards]);
 
-  //       getItemsCards(factionList[1]);
-  //       setFaction(factionList[1]);
-  //     };
+  useEffect(() => {
+    const fetchData = async () => {
+      // Factions
+      const factionsCol = collection(db, "factions");
+      const factionsSnapshot = await getDocs(factionsCol);
+      const factionList = factionsSnapshot.docs.map((doc) => doc.data());
 
-  //     getFactions();
-  //   }, []);
+      const selectedFaction = factionList[0];
+      setFactions(factionList);
+      setSelectedFaction(selectedFaction);
+      console.log(factionList);
+
+      // Cards
+      const cardsCol = collection(db, "units");
+      //   const q = query(cardsCol, where("faction_id", "==", faction.id));
+      const cardsSnapshot = await getDocs(cardsCol);
+      const cardList = cardsSnapshot.docs.map((doc) => doc.data());
+      setUnits(cardList);
+
+      //   getItemsCards(selectedFaction);
+    };
+
+    fetchData().catch((error) => console.log(error));
+  }, []);
 
   return (
     <CardsBlock>

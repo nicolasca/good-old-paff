@@ -7,7 +7,7 @@
 
 // const batch = db.batch();
 
-export const factionsData = [
+const factionsData = [
   {
     id: 0,
     name: "Paoli",
@@ -46,7 +46,7 @@ export const factionsData = [
   },
 ];
 
-export const unitsData = [
+const unitsData = [
   {
     name: "Gupaanh",
     slug: "gupaanh",
