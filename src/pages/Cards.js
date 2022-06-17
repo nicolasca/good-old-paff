@@ -1,8 +1,8 @@
 import { collection, getDocs } from "firebase/firestore/lite";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { db } from "..";
-import { factionsData, unitsData } from "../import";
+// import { factionsData, unitsData } from "../import";
 
 const CardsBlock = styled.div`
   //   display: flex;
@@ -64,53 +64,53 @@ export default function Cards() {
     setCards(createItemCards(faction));
   };
 
-  useEffect(() => {
-    const factionFirst = factionsData[0];
-    setFactions(factionsData);
-    setSelectedFaction(factionFirst);
-
-    factionsData.forEach((faction) => {
-      faction.units = [];
-      unitsData.forEach((unit) => {
-        if (faction.id === unit.faction_id) {
-          faction.units.push(unit);
-        }
-      });
-    });
-
-    setCards(createItemCards(factionFirst));
-  }, []);
-
   // useEffect(() => {
-  //   const fetchData = async () => {
-  //     // Factions
-  //     const factionsCol = collection(db, "factions");
-  //     const factionsSnapshot = await getDocs(factionsCol);
-  //     const factionList = factionsSnapshot.docs.map((doc) => doc.data());
+  //   const factionFirst = factionsData[0];
+  //   setFactions(factionsData);
+  //   setSelectedFaction(factionFirst);
 
-  //     const selectedFaction = factionList[0];
-  //     setFactions(factionList);
-  //     setSelectedFaction(selectedFaction);
-
-  //     // Cards
-  //     const cardsCol = collection(db, "units");
-  //     const cardsSnapshot = await getDocs(cardsCol);
-  //     const unitList = cardsSnapshot.docs.map((doc) => doc.data());
-
-  //     factionList.forEach((faction) => {
-  //       faction.units = [];
-  //       unitList.forEach((unit) => {
-  //         if (faction.id === unit.faction_id) {
-  //           faction.units.push(unit);
-  //         }
-  //       });
+  //   factionsData.forEach((faction) => {
+  //     faction.units = [];
+  //     unitsData.forEach((unit) => {
+  //       if (faction.id === unit.faction_id) {
+  //         faction.units.push(unit);
+  //       }
   //     });
+  //   });
 
-  //     setCards(createItemCards(selectedFaction));
-  //   };
-
-  //   fetchData().catch((error) => console.log(error));
+  //   setCards(createItemCards(factionFirst));
   // }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      // Factions
+      const factionsCol = collection(db, "factions");
+      const factionsSnapshot = await getDocs(factionsCol);
+      const factionList = factionsSnapshot.docs.map((doc) => doc.data());
+
+      const selectedFaction = factionList[0];
+      setFactions(factionList);
+      setSelectedFaction(selectedFaction);
+
+      // Cards
+      const cardsCol = collection(db, "units");
+      const cardsSnapshot = await getDocs(cardsCol);
+      const unitList = cardsSnapshot.docs.map((doc) => doc.data());
+
+      factionList.forEach((faction) => {
+        faction.units = [];
+        unitList.forEach((unit) => {
+          if (faction.id === unit.faction_id) {
+            faction.units.push(unit);
+          }
+        });
+      });
+
+      setCards(createItemCards(selectedFaction));
+    };
+
+    fetchData().catch((error) => console.log(error));
+  }, []);
 
   return (
     <CardsBlock>
