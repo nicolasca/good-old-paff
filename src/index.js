@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { initializeApp } from "firebase/app";
-
+import { getAuth } from "firebase/auth";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
@@ -20,6 +20,10 @@ export const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
+
+// Initialize the FirebaseUI Widget using Firebase.
+export const auth = getAuth(app);
+// var ui = new firebaseui.auth.AuthUI(auth);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

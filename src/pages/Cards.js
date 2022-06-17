@@ -1,4 +1,4 @@
-import { collection, getDocs } from "firebase/firestore/lite";
+import { collection, getDocs, orderBy, query } from "firebase/firestore/lite";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { db } from "..";
@@ -85,7 +85,8 @@ export default function Cards() {
     const fetchData = async () => {
       // Factions
       const factionsCol = collection(db, "factions");
-      const factionsSnapshot = await getDocs(factionsCol);
+      const q = query(factionsCol, orderBy("name"));
+      const factionsSnapshot = await getDocs(q);
       const factionList = factionsSnapshot.docs.map((doc) => doc.data());
 
       const selectedFaction = factionList[0];
