@@ -7,7 +7,7 @@
 
 // const batch = db.batch();
 
-const factionsData = [
+export const factionsData = [
   {
     id: 0,
     name: "Paoli",
@@ -54,9 +54,44 @@ const factionsData = [
     name: "Hommes-Lézards",
     slug: "hommes-lezards",
   },
+  {
+    id: 9,
+    name: "Dragor",
+    slug: "dragor",
+  },
+  {
+    id: 10,
+    name: "Nains",
+    slug: "nains",
+  },
+  {
+    id: 11,
+    name: "Goules",
+    slug: "goules",
+  },
+  {
+    id: 12,
+    name: "Nordiques",
+    slug: "nordiques",
+  },
+  {
+    id: 13,
+    name: "Sephosi",
+    slug: "sephosi",
+  },
+  {
+    id: 14,
+    name: "Skavens",
+    slug: "skavens",
+  },
+  {
+    id: 15,
+    name: "Jeldi",
+    slug: "jeldi",
+  },
 ];
 
-const unitsData = [
+export const unitsData = [
   {
     name: "Gupaanh",
     slug: "gupaanh",
@@ -886,6 +921,681 @@ const unitsData = [
     name: "Taan Srann",
     slug: "taann-srann",
     faction_id: 8,
+  },
+  {
+    name: "À couvert",
+    slug: "a-couvert",
+    faction_id: 9,
+  },
+  {
+    name: "Archers de Brone",
+    slug: "archers-brone",
+    faction_id: 9,
+  },
+  {
+    name: "Catapultes dragoriennes",
+    slug: "catapultes-dragoriennes",
+    faction_id: 9,
+  },
+  {
+    name: "Cavalerie briseuse dragorienne",
+    slug: "cavalerie-briseuse-dragorienne",
+    faction_id: 9,
+  },
+  {
+    name: "Cavalerie de harcèlement dragorienne",
+    slug: "cavalerie-harcelement-dragorienne",
+    faction_id: 9,
+  },
+  {
+    name: "Charge du Dragor",
+    slug: "charge-dragor",
+    faction_id: 9,
+  },
+  {
+    name: "Chevaliers à pied du Dragor",
+    slug: "chevaliers-pied-dragor",
+    faction_id: 9,
+  },
+  {
+    name: "Chevaliers de l'ordre de Belme",
+    slug: "chevaliers-ordre-belme",
+    faction_id: 9,
+  },
+  {
+    name: "Chevaliers montés du Dragor",
+    slug: "chevaliers-montes-dragor",
+    faction_id: 9,
+  },
+  {
+    name: "Couvrez le ciel",
+    slug: "couvrez-ciel",
+    faction_id: 9,
+  },
+  {
+    name: "Fortifications de bataille dragoriennes",
+    slug: "fortifications-bataille-dragoriennes",
+    faction_id: 9,
+  },
+  {
+    name: "Galop effréné",
+    slug: "galop-effrene",
+    faction_id: 9,
+  },
+  {
+    name: "Hautes Dames du Dragor",
+    slug: "hautes-dames-dragor",
+    faction_id: 9,
+  },
+  {
+    name: "La Dame Blanche et les Seigneurs du Dragor",
+    slug: "dame-blanche-seigneurs-dragor",
+    faction_id: 9,
+  },
+  {
+    name: "Patrouilleurs-dragoriens",
+    slug: "patrouilleurs-dragoriens",
+    faction_id: 9,
+  },
+  {
+    name: "Régiment de Syrim",
+    slug: "regiment-syrim",
+    faction_id: 9,
+  },
+  {
+    name: "Renforcer la ligne",
+    slug: "renforcer-ligne",
+    faction_id: 9,
+  },
+  {
+    name: "Voeux de Chevalier - Charge totale",
+    slug: "voeux-chevalier-charge-totale",
+    faction_id: 9,
+  },
+  {
+    name: "Voeux de Chevalier - Faire pleuvoir la mort",
+    slug: "voeux-chevalier-faire-pleuvoir-mort",
+    faction_id: 9,
+  },
+  {
+    name: "Voeux de Chevalier - Vaillance au combat",
+    slug: "voeux-chevalier-faire-vaillance-combat",
+    faction_id: 9,
+  },
+  {
+    name: "Longues barbes",
+    slug: "longues-barbes",
+    faction_id: 10,
+  },
+  {
+    name: "Guerriers nains",
+    slug: "guerriers-nains",
+    faction_id: 10,
+  },
+  {
+    name: "Arquebusiers nains",
+    slug: "arquebusiers-nains",
+    faction_id: 10,
+  },
+  {
+    name: "Arbalétriers nains",
+    slug: "arbaletriers-nains",
+    faction_id: 10,
+  },
+  {
+    name: "Canons runiques nains",
+    slug: "canons-runiques-nains",
+    faction_id: 10,
+  },
+  {
+    name: "Brise fers",
+    slug: "brise-fers",
+    faction_id: 10,
+  },
+  {
+    name: "Repentis",
+    slug: "repentis",
+    faction_id: 10,
+  },
+  {
+    name: "Mineurs",
+    slug: "mineurs",
+    faction_id: 10,
+  },
+  {
+    name: "Le Seigneur et sa garde",
+    slug: "seigneur-et-garde",
+    faction_id: 10,
+  },
+  {
+    name: "Chant de Guerre du Karak",
+    slug: "chant-guerre-karak",
+    faction_id: 10,
+  },
+  {
+    name: "Réseau tunnelier nain",
+    slug: "reseau-tunnelier-nain",
+    faction_id: 10,
+  },
+  {
+    name: "Charges sous le regard des Anciens",
+    slug: "charges-regard-anciens",
+    faction_id: 10,
+  },
+  {
+    name: "Nan !",
+    slug: "nan",
+    faction_id: 10,
+  },
+  {
+    name: "Canons à flamme nains",
+    slug: "canons-flamme-nains",
+    faction_id: 10,
+  },
+  {
+    name: "Combattants nains",
+    slug: "combattants-nains",
+    faction_id: 10,
+  },
+  {
+    name: "Gyrocoptère",
+    slug: "gyrocoptere",
+    faction_id: 10,
+  },
+  {
+    name: "Serment de résistance cac",
+    slug: "serment-resistance-cac",
+    faction_id: 10,
+  },
+  {
+    name: "Serment de résistance tir",
+    slug: "serment-resistance-tir",
+    faction_id: 10,
+  },
+  {
+    name: "Arkgoules",
+    slug: "arkgoules",
+    faction_id: 11,
+  },
+  {
+    name: "Champions goules",
+    slug: "champions-goules",
+    faction_id: 11,
+  },
+  {
+    name: "Don de Jhal dans le tir",
+    slug: "don-jhal-tir",
+    faction_id: 11,
+  },
+  {
+    name: "Drenn Och Khal",
+    slug: "drenn-och-khal",
+    faction_id: 11,
+  },
+  {
+    name: "Drenn",
+    slug: "drenn",
+    faction_id: 11,
+  },
+  {
+    name: "Fabrication des Drenn",
+    slug: "fabrication-drenn",
+    faction_id: 11,
+  },
+  {
+    name: "Gouluement",
+    slug: "gouluement",
+    faction_id: 11,
+  },
+  {
+    name: "Invocation par le Jhal",
+    slug: "invocation-par-jhal",
+    faction_id: 11,
+  },
+  {
+    name: "Jhal sur la toile",
+    slug: "jhal-sur-toile",
+    faction_id: 11,
+  },
+  {
+    name: "Lanceurs de Jhal goules",
+    slug: "lanceurs-jhal-goules",
+    faction_id: 11,
+  },
+  {
+    name: "Largueur de Jhal",
+    slug: "largueur-jhal",
+    faction_id: 11,
+  },
+  {
+    name: "Matriarches goules",
+    slug: "matriarches-goules",
+    faction_id: 11,
+  },
+  {
+    name: "Princes goules",
+    slug: "princes-goules",
+    faction_id: 11,
+  },
+  {
+    name: "Rantsorr goules",
+    slug: "rantsorr-goules",
+    faction_id: 11,
+  },
+  {
+    name: "Reines goules",
+    slug: "reines-goules",
+    faction_id: 11,
+  },
+  {
+    name: "Remodelage",
+    slug: "remodelage",
+    faction_id: 11,
+  },
+  {
+    name: "Roi goule",
+    slug: "roi-goule",
+    faction_id: 11,
+  },
+  {
+    name: "Terre corrompue par le Jhal",
+    slug: "terre-corrompue-jhal",
+    faction_id: 11,
+  },
+  {
+    name: "Transformation accélérée",
+    slug: "transformation-acceleree",
+    faction_id: 11,
+  },
+  {
+    name: "Lyubloreas",
+    slug: "lyubloreas",
+    faction_id: 12,
+  },
+  {
+    name: "Guerriers nordiques à cheval",
+    slug: "guerriers-nordiques-cheval",
+    faction_id: 12,
+  },
+  {
+    name: "Yétis",
+    slug: "yetis",
+    faction_id: 12,
+  },
+  {
+    name: "Berserks",
+    slug: "berserks",
+    faction_id: 12,
+  },
+  {
+    name: "Grandes prêtresses de Lyubloreas",
+    slug: "grandes-pretresses-lyubloreas",
+    faction_id: 12,
+  },
+  {
+    name: "Combler les brêches !",
+    slug: "combler-breches",
+    faction_id: 12,
+  },
+  {
+    name: "À l'ancienne",
+    slug: "a-ancienne",
+    faction_id: 12,
+  },
+  {
+    name: "Souffle des Anciens Dieux",
+    slug: "souffle-anciens-dieux",
+    faction_id: 12,
+  },
+  {
+    name: "Grands Chefs du Nord",
+    slug: "grands-chefs-nord",
+    faction_id: 12,
+  },
+  {
+    name: "Chercher la mort",
+    slug: "chercher-mort",
+    faction_id: 12,
+  },
+  {
+    name: "Chevaucheurs d'ours",
+    slug: "chevaucheurs-ours",
+    faction_id: 12,
+  },
+  {
+    name: "Gardiens du Nord",
+    slug: "gardiens-nord",
+    faction_id: 12,
+  },
+  {
+    name: "Guerriers nordiques",
+    slug: "guerriers-nordiques",
+    faction_id: 12,
+  },
+  {
+    name: "Jeunes nordiques",
+    slug: "jeunes-nordiques",
+    faction_id: 12,
+  },
+  {
+    name: "Pour le Nord",
+    slug: "pour-nord",
+    faction_id: 12,
+  },
+  {
+    name: "Roi Borrud Wosdork et sa garde",
+    slug: "roi-borrud-wosdork-et-garde",
+    faction_id: 12,
+  },
+  {
+    name: "Ultar",
+    slug: "ultar",
+    faction_id: 12,
+  },
+  {
+    name: "Art de la guerre sephosien",
+    slug: "art-guerre-sephosien",
+    faction_id: 13,
+  },
+  {
+    name: "Discipline sephosienne",
+    slug: "discipline-sephosienne",
+    faction_id: 13,
+  },
+  {
+    name: "Maîtres des balistes",
+    slug: "maitres-balistes",
+    faction_id: 13,
+  },
+  {
+    name: "Protéger la Salamandre !",
+    slug: "proteger-salamandre",
+    faction_id: 13,
+  },
+  {
+    name: "Repli stratégique",
+    slug: "repli-strategique",
+    faction_id: 13,
+  },
+  {
+    name: "Fureur divine",
+    slug: "fureur-divine",
+    faction_id: 13,
+  },
+  {
+    name: "Lanciers sephosiens",
+    slug: "lanciers-sephosiens",
+    faction_id: 13,
+  },
+  {
+    name: "Soldats sephosiens",
+    slug: "soldats-sephosiens",
+    faction_id: 13,
+  },
+  {
+    name: "Arbalétriers avec pavois sephosiens",
+    slug: "arbaletriers-pavois-sephosiens",
+    faction_id: 13,
+  },
+  {
+    name: "Archers sephosiens",
+    slug: "archers-sephosiens",
+    faction_id: 13,
+  },
+  {
+    name: "Cavalerie lourde sephosienne",
+    slug: "cavalerie-lourde-sephosienne",
+    faction_id: 13,
+  },
+  {
+    name: "Arbalatriers montés sephosiens",
+    slug: "arbaletriers-montes-sephosiens",
+    faction_id: 13,
+  },
+  {
+    name: "Cavalerie légère sephosienne",
+    slug: "cavalerie-legere-sephosienne",
+    faction_id: 13,
+  },
+  {
+    name: "Compagnie des maîtres balistaires",
+    slug: "compagnie-maitres-balistaires",
+    faction_id: 13,
+  },
+  {
+    name: "Balisterie sephosienne",
+    slug: "balisterie-sephosienne",
+    faction_id: 13,
+  },
+  {
+    name: "Anges protecteurs de la Sephosi",
+    slug: "anges-protecteurs-sephosi",
+    faction_id: 13,
+  },
+  {
+    name: "Élus de la Sephosi",
+    slug: "elus-sephosi",
+    faction_id: 13,
+  },
+  {
+    name: "Chevaliers et Seigneurs de la Salamandre",
+    slug: "chevaliers-seigneurs-salamandre",
+    faction_id: 13,
+  },
+  {
+    name: "Nuée skaven",
+    slug: "nuee-skaven",
+    faction_id: 14,
+  },
+  {
+    name: "Guerriers skavens",
+    slug: "guerriers-skavens",
+    faction_id: 14,
+  },
+  {
+    name: "Rases-terre skavens",
+    slug: "rases-terre-skavens",
+    faction_id: 14,
+  },
+  {
+    name: "Lanceurs skavens",
+    slug: "lanceurs-skavens",
+    faction_id: 14,
+  },
+  {
+    name: "Skavenar",
+    slug: "skavenar",
+    faction_id: 14,
+  },
+  {
+    name: "Guideur de nuée",
+    slug: "guideur-nuee",
+    faction_id: 14,
+  },
+  {
+    name: "Réorganisation de la Horde",
+    slug: "reorganisation-horde",
+    faction_id: 14,
+  },
+  {
+    name: "Alimentation de la magie skaven",
+    slug: "alimentation-magie-skaven",
+    faction_id: 14,
+  },
+  {
+    name: "Coureurs de tunnels skavens",
+    slug: "coureurs-tunnels-skavens",
+    faction_id: 14,
+  },
+  {
+    name: "Lâchez la nuée !",
+    slug: "lachez-nuee",
+    faction_id: 14,
+  },
+  {
+    name: "Nuée de rats",
+    slug: "nuee-rats",
+    faction_id: 14,
+  },
+  {
+    name: "Assassin skaven",
+    slug: "assassin-skaven",
+    faction_id: 14,
+  },
+  {
+    name: "Innombrables",
+    slug: "innombrables",
+    faction_id: 14,
+  },
+  {
+    name: "Envahissants",
+    slug: "envahissants",
+    faction_id: 14,
+  },
+  {
+    name: "Fisseurs de Toile",
+    slug: "fisseurs-toile",
+    faction_id: 14,
+  },
+  {
+    name: "Enragement des skavns",
+    slug: "enragement-skavens",
+    faction_id: 14,
+  },
+  {
+    name: "Horde en mouvement",
+    slug: "horde-mouvement",
+    faction_id: 14,
+  },
+  {
+    name: "Déchaînement de magie skaven",
+    slug: "dechainement-magie-skaven",
+    faction_id: 14,
+  },
+  {
+    name: "Rats-Ogres",
+    slug: "rats-ogres",
+    faction_id: 14,
+  },
+  {
+    name: "Mage skaven",
+    slug: "mage-skaven",
+    faction_id: 14,
+  },
+  {
+    name: "Nuée gardienne de Couveuse",
+    slug: "nuee-gardienne-couveuse",
+    faction_id: 14,
+  },
+  {
+    name: "Frisssiliss Sonneur de mort",
+    slug: "frisssiliss-sonneur-mort",
+    faction_id: 14,
+  },
+  {
+    name: "Les Seize Lames",
+    slug: "seize-lames",
+    faction_id: 14,
+  },
+  {
+    name: "Déploiement organisé jeldien",
+    slug: "deploiement-organise-jeldien",
+    faction_id: 15,
+  },
+  {
+    name: "Déplacement stratégique jeldien",
+    slug: "deplacement-strategique-jeldien",
+    faction_id: 15,
+  },
+  {
+    name: "Tir concentré",
+    slug: "tir-concentre-jeldien",
+    faction_id: 15,
+  },
+  {
+    name: "Tir traverçant jeldien",
+    slug: "tir-travercant-jeldien",
+    faction_id: 15,
+  },
+  {
+    name: "Armée de samouraïs",
+    slug: "armee-samourai",
+    faction_id: 15,
+  },
+  {
+    name: "Appel du combat - Samouraï",
+    slug: "appel-combat-samourai",
+    faction_id: 15,
+  },
+  {
+    name: "Porteurs de lance jeldiens",
+    slug: "porteurs-lance-jeldiens",
+    faction_id: 15,
+  },
+  {
+    name: "Infanterie des castes inférieures",
+    slug: "infanterie-castes-inferieures",
+    faction_id: 15,
+  },
+  {
+    name: "Lanceurs d'explosifs jeldiens",
+    slug: "lanceurs-explosifs-jeldiens",
+    faction_id: 15,
+  },
+  {
+    name: "Archers samouraï",
+    slug: "archers-samourai",
+    faction_id: 15,
+  },
+  {
+    name: "Archers des castes inférieures",
+    slug: "archers-castes-inferieures",
+    faction_id: 15,
+  },
+  {
+    name: "Cavalerie des castes moyennes",
+    slug: "cavalerie-castes-moyennes",
+    faction_id: 15,
+  },
+  {
+    name: "Lanceurs de fumigènes",
+    slug: "lanceurs-fumigene",
+    faction_id: 15,
+  },
+  {
+    name: "Couvreurs du ciel jeldien",
+    slug: "couvreurs-ciel-jeldiens",
+    faction_id: 15,
+  },
+  {
+    name: "Balistes jeldiennes",
+    slug: "balistes-jeldiennes",
+    faction_id: 15,
+  },
+  {
+    name: "Officiers des castes supérieures",
+    slug: "officiers-castes-superieures",
+    faction_id: 15,
+  },
+  {
+    name: "Archers longs jeldiens",
+    slug: "archers-longs-jeldiens",
+    faction_id: 15,
+  },
+  {
+    name: "Gardiens des Lames samouraï",
+    slug: "gardiens-lames-samourai",
+    faction_id: 15,
+  },
+  {
+    name: "Samouraï du Roi",
+    slug: "samourai-roi",
+    faction_id: 15,
+  },
+  {
+    name: "Chef de guerre Han Kitora",
+    slug: "chef-guerre-han-kitora",
+    faction_id: 15,
   },
 ];
 
