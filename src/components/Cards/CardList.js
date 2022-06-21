@@ -1,7 +1,9 @@
 import { collection, getDocs, orderBy, query } from "firebase/firestore/lite";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
-import { db } from "..";
+import { db } from "../..";
+import { DeckContext } from "../Decks/CreateDeck";
+import Card from "./Card";
 // import { factionsData, unitsData } from "../import";
 
 const CardsBlock = styled.div`
@@ -15,30 +17,23 @@ const CardsWrapper = styled.div`
   gap: 2rem;
 `;
 
-const Card = styled.div`
-  transition: transform 1s;
-  &:hover {
-    transform: rotate3d(0, 1, 0, 10deg);
-  }
-`;
-
-export default function Cards() {
+export default function CardList({ isDeckCreating }) {
   const [factions, setFactions] = useState(null);
   const [selectedFaction, setSelectedFaction] = useState(null);
   const [factionsOptions, setFactionsOptions] = useState(null);
   const [cards, setCards] = useState(null);
 
+  const deckContextValue = useContext(DeckContext);
+
   const createItemCards = (faction) => {
     return faction.units.map((card) => {
       return (
-        <Card key={card.slug}>
-          <img
-            src={`${process.env.PUBLIC_URL}/images/${faction.slug}/${card.slug}.jpg`}
-            alt={card.name}
-            width={357}
-            height={500}
-          />
-        </Card>
+        <Card
+          key={card.slug}
+          card={card}
+          faction={faction}
+          isDeckCreating={isDeckCreating}
+        />
       );
     });
   };
@@ -62,6 +57,7 @@ export default function Cards() {
     );
     setSelectedFaction(faction);
     setCards(createItemCards(faction));
+    deckContextValue["factionId"] = faction.id;
   };
 
   // useEffect(() => {
@@ -92,11 +88,13 @@ export default function Cards() {
       const selectedFaction = factionList[0];
       setFactions(factionList);
       setSelectedFaction(selectedFaction);
+      deckContextValue["factionId"] = selectedFaction.id;
 
       // Cards
       const cardsCol = collection(db, "units");
       const cardsSnapshot = await getDocs(cardsCol);
       const unitList = cardsSnapshot.docs.map((doc) => doc.data());
+      deckContextValue["cards"] = unitList;
 
       factionList.forEach((faction) => {
         faction.units = [];

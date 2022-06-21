@@ -1,18 +1,19 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import styled from "styled-components";
-import Cards from "../../pages/Cards";
-import Home from "../../pages/Home/Home";
+import Home from "../Home/Home";
 import Header from "./Header";
-import Login from "../../pages/Authentication/Login";
-import Register from "../../pages/Authentication/Register";
-import Decks from "../../pages/Decks/Decks";
+import Register from "../Authentication/Register";
+import Login from "../Authentication/Login";
 import ProtectedRoute from "./ProtectedRoute";
-import ResetPassword from "../../pages/Authentication/ResetPassword";
+import ResetPassword from "../Authentication/ResetPassword";
+import CreateDeck from "../Decks/CreateDeck";
+import CardList from "../Cards/CardList";
+import DecksPage from "../Decks/DecksPage";
 
 const routes = (
   <Routes>
     <Route exact path="/" element={<Home />} />
-    <Route path="/cards" element={<Cards />} />
+    <Route path="/cards" element={<CardList />} />
     <Route path="/login" element={<Login />} />
     <Route path="/register" element={<Register />} />
     <Route path="/forgotten-password" element={<ResetPassword />} />
@@ -21,7 +22,15 @@ const routes = (
       path="/decks"
       element={
         <ProtectedRoute>
-          <Decks />
+          <DecksPage />
+        </ProtectedRoute>
+      }
+    />
+    <Route
+      path="/create-deck"
+      element={
+        <ProtectedRoute>
+          <CreateDeck />
         </ProtectedRoute>
       }
     />
