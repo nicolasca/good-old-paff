@@ -1,34 +1,34 @@
 import { addDoc, collection } from "firebase/firestore/lite";
 import { useContext, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { useNavigate } from "react-router-dom";
 import { auth, db } from "../..";
-import { DeckContext } from "./CreateDeck";
+import { DeckContext } from "../Layout/Layout";
 
 export default function FormDeck() {
   const [deckName, setDeckName] = useState("");
+  const { cards, faction } = useContext(DeckContext);
 
-  const deck = useContext(DeckContext);
   const [user] = useAuthState(auth);
+  const navigate = useNavigate();
 
-  const handleSaveDeck = () => {
-    const cardsToSave = Object.keys(deck.deck)
-      .map((cardSlug, count) => {
-        const card = deck.cards.find((c) => c.slug === cardSlug && count > 0);
-        return Array(count).fill({ ...card });
-      })
-      .flat();
+  const handleSaveDeck = async () => {
+    const cardsToSave = cards.filter((card) => {
+      return card.count > 0;
+    });
 
     const deckToSave = {
       name: deckName,
       cards: cardsToSave,
       owner_email: user.email,
-      faction_id: deck.factionId,
+      faction,
     };
-    console.log("save the deck", { deckToSave });
 
     // Save the deck
     const docRef = collection(db, "decks");
-    addDoc(docRef, deckToSave);
+    await addDoc(docRef, deckToSave);
+
+    navigate("/decks", { replace: true });
   };
 
   return (

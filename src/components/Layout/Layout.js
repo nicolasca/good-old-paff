@@ -7,13 +7,15 @@ import Login from "../Authentication/Login";
 import ProtectedRoute from "./ProtectedRoute";
 import ResetPassword from "../Authentication/ResetPassword";
 import CreateDeck from "../Decks/CreateDeck";
-import CardList from "../Cards/CardList";
 import DecksPage from "../Decks/DecksPage";
+import CardsPage from "../Cards/CardsPage";
+import React, { useState } from "react";
+import EditDeck from "../Decks/EditDeck";
 
 const routes = (
   <Routes>
     <Route exact path="/" element={<Home />} />
-    <Route path="/cards" element={<CardList />} />
+    <Route path="/cards" element={<CardsPage />} />
     <Route path="/login" element={<Login />} />
     <Route path="/register" element={<Register />} />
     <Route path="/forgotten-password" element={<ResetPassword />} />
@@ -34,6 +36,14 @@ const routes = (
         </ProtectedRoute>
       }
     />
+    <Route
+      path="/edit-deck/:id"
+      element={
+        <ProtectedRoute>
+          <EditDeck />
+        </ProtectedRoute>
+      }
+    />
   </Routes>
 );
 
@@ -41,11 +51,38 @@ const Main = styled.main`
   padding: 2rem;
 `;
 
+export const DeckContext = React.createContext({});
+
 function Layout(props) {
+  const [allCards, setAllCards] = useState();
+  const [cards, setCards] = useState([]);
+  const [faction, setFaction] = useState(null);
+
+  function addCount(card, count) {
+    const cardFromDeck = cards.find((c) => c.slug === card.slug);
+    if (!cardFromDeck) {
+      cards.push({ count, ...card });
+    } else {
+      cardFromDeck.count = count;
+    }
+  }
+
+  const defaultValue = {
+    allCards,
+    setAllCards,
+    faction,
+    setFaction,
+    addCount,
+    cards,
+    setCards,
+  };
+
   return (
     <Router>
       <Header />
-      <Main>{routes}</Main>
+      <DeckContext.Provider value={defaultValue}>
+        <Main>{routes}</Main>
+      </DeckContext.Provider>
     </Router>
   );
 }

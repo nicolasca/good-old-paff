@@ -40,7 +40,11 @@ function Header() {
         <li>
           <NavLink to="/cards">Cartes</NavLink>
         </li>
-        {user ? <NavLink to="/decks">Decks</NavLink> : null}
+        {user ? (
+          <li>
+            <NavLink to="/decks">Decks</NavLink>{" "}
+          </li>
+        ) : null}
       </NavList>
       <NavList>
         {user ? (

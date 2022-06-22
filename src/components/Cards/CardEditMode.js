@@ -1,6 +1,6 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
-import { DeckContext } from "../Decks/CreateDeck";
+import { DeckContext } from "../Layout/Layout";
 
 const CardWrapper = styled.div`
   transition: transform 1s;
@@ -9,15 +9,18 @@ const CardWrapper = styled.div`
   }
 `;
 
-export default function Card({ card, faction, isDeckCreating = false }) {
+export default function CardEditMode({ card, faction }) {
+  const { addCount } = useContext(DeckContext);
   const [count, setCount] = useState(0);
 
-  const deck = useContext(DeckContext);
-
   const handleCountChange = (e) => {
+    addCount(card, parseInt(e.target.value));
     setCount(e.target.value);
-    deck.deck[card.slug] = e.target.value;
   };
+
+  useEffect(() => {
+    setCount(card.count || 0);
+  }, [card]);
 
   return (
     <CardWrapper key={card.slug}>
@@ -27,9 +30,7 @@ export default function Card({ card, faction, isDeckCreating = false }) {
         width={357}
         height={500}
       />
-      {isDeckCreating ? (
-        <input type="number" value={count} onChange={handleCountChange} />
-      ) : null}
+      <input type="number" value={count} onChange={handleCountChange} />
     </CardWrapper>
   );
 }

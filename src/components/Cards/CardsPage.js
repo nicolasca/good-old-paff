@@ -1,16 +1,14 @@
 import { collection, getDocs, orderBy, query } from "firebase/firestore/lite";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { db } from "../..";
-import CardList from "../Cards/CardList";
 import { DeckContext } from "../Layout/Layout";
-import FormDeck from "./FormDeck";
+import CardList from "./CardList";
 
-const CreateDeck = () => {
+export default function CardsPage() {
   const [factionsOptions, setFactionsOptions] = useState(null);
-  const [cardsToDisplay, setCardsToDisplay] = useState(null);
-
   const [factions, setFactions] = useState(null);
-  const { cards, faction, setAllCards, setFaction } = useContext(DeckContext);
+  const [cardsToDisplay, setCardsToDisplay] = useState(null);
+  const { faction, setFaction, cards, setAllCards } = useContext(DeckContext);
 
   const handleChangeFaction = (event) => {
     const selectedFaction = factions.find(
@@ -71,20 +69,10 @@ const CreateDeck = () => {
 
   return (
     <div>
-      <h2>Créer un deck</h2>
-      <FormDeck />
       {factions && factions.length > 0 ? (
         <select onChange={handleChangeFaction}>{factionsOptions}</select>
       ) : null}
-      {faction ? (
-        <CardList
-          cards={cardsToDisplay}
-          faction={faction}
-          isDeckCreating={true}
-        />
-      ) : null}
+      {faction ? <CardList cards={cardsToDisplay} faction={faction} /> : null}
     </div>
   );
-};
-
-export default CreateDeck;
+}
