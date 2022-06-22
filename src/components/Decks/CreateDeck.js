@@ -10,7 +10,8 @@ const CreateDeck = () => {
   const [cardsToDisplay, setCardsToDisplay] = useState(null);
 
   const [factions, setFactions] = useState(null);
-  const { cards, faction, setAllCards, setFaction } = useContext(DeckContext);
+  const { faction, setAllCards, allCards, setFaction } =
+    useContext(DeckContext);
 
   const handleChangeFaction = (event) => {
     const selectedFaction = factions.find(
@@ -19,7 +20,7 @@ const CreateDeck = () => {
     setFaction(selectedFaction);
 
     const cardsOfFaction = [];
-    cards.forEach((unit) => {
+    allCards.forEach((unit) => {
       if (selectedFaction.id === unit.faction_id) {
         cardsOfFaction.push(unit);
       }

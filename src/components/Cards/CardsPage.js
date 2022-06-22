@@ -8,20 +8,21 @@ export default function CardsPage() {
   const [factionsOptions, setFactionsOptions] = useState(null);
   const [factions, setFactions] = useState(null);
   const [cardsToDisplay, setCardsToDisplay] = useState(null);
-  const { faction, setFaction, cards, setAllCards } = useContext(DeckContext);
+  const { faction, setFaction, allCards, setAllCards } =
+    useContext(DeckContext);
 
   const handleChangeFaction = (event) => {
     const selectedFaction = factions.find(
       (faction) => event.target.value === faction.slug
     );
     setFaction(selectedFaction);
-
     const cardsOfFaction = [];
-    cards.forEach((unit) => {
+    allCards.forEach((unit) => {
       if (selectedFaction.id === unit.faction_id) {
         cardsOfFaction.push(unit);
       }
     });
+    console.log(cardsOfFaction);
     setCardsToDisplay(cardsOfFaction);
   };
 
