@@ -12,7 +12,7 @@ export default function EditDeck() {
   const [cardsToDisplay, setCardsToDisplay] = useState(null);
   const [deckRef, setDeckRef] = useState(null);
 
-  const { allCards, cards, setCards } = useContext(DeckContext);
+  const { allCards, cards, setCards, setFaction } = useContext(DeckContext);
   const navigate = useNavigate();
 
   const handleSaveDeck = async () => {
@@ -25,6 +25,11 @@ export default function EditDeck() {
 
     // Save the deck
     await updateDoc(deckRef, deck);
+
+    // Clean the context
+    setCards([]);
+    setFaction(null);
+
     navigate("/decks", { replace: true });
   };
 

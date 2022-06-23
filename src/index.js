@@ -18,12 +18,11 @@ export const firebaseConfig = {
   messagingSenderId: "123103638005",
   appId: "1:123103638005:web:aeaf545831819acc5630bc",
 };
+
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 
-// Initialize the FirebaseUI Widget using Firebase.
 export const auth = getAuth(app);
-// var ui = new firebaseui.auth.AuthUI(auth);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
