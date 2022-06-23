@@ -1,4 +1,11 @@
-import { collection, getDocs, query, where } from "firebase/firestore/lite";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore/lite";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link } from "react-router-dom";
@@ -15,6 +22,15 @@ export default function DeckList() {
   const handleDeckChange = (e) => {
     const newDeckSelected = deckList.find((d) => d.name === e.target.value);
     setSelectedDeck(newDeckSelected);
+  };
+
+  const handleDeleteDeck = async () => {
+    await deleteDoc(doc(db, "decks", selectedDeck.id));
+    const newDeckList = deckList.filter((d) => d.id !== selectedDeck.id);
+    setDeckList(newDeckList);
+    if (newDeckList.length > 0) {
+      setSelectedDeck(newDeckList[0]);
+    }
   };
 
   useEffect(() => {
@@ -50,6 +66,7 @@ export default function DeckList() {
         <>
           <select onChange={handleDeckChange}>{decksOptions}</select>
           <Link to={"/edit-deck/" + selectedDeck.id}>Modifier le deck</Link>
+          <button onClick={handleDeleteDeck}>Supprimer le deck</button>
           <CardList cards={selectedDeck.cards} faction={selectedDeck.faction} />
         </>
       ) : null}

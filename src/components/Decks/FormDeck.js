@@ -7,7 +7,7 @@ import { DeckContext } from "../Layout/Layout";
 
 export default function FormDeck() {
   const [deckName, setDeckName] = useState("");
-  const { cards, faction } = useContext(DeckContext);
+  const { cards, faction, setCards, setFaction } = useContext(DeckContext);
 
   const [user] = useAuthState(auth);
   const navigate = useNavigate();
@@ -27,6 +27,10 @@ export default function FormDeck() {
     // Save the deck
     const docRef = collection(db, "decks");
     await addDoc(docRef, deckToSave);
+
+    // Clean the context
+    setCards([]);
+    setFaction(null);
 
     navigate("/decks", { replace: true });
   };
