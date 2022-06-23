@@ -1,18 +1,21 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import styled from "styled-components";
-import Cards from "../../pages/Cards";
-import Home from "../../pages/Home/Home";
+import Home from "../Home/Home";
 import Header from "./Header";
-import Login from "../../pages/Authentication/Login";
-import Register from "../../pages/Authentication/Register";
-import Decks from "../../pages/Decks/Decks";
+import Register from "../Authentication/Register";
+import Login from "../Authentication/Login";
 import ProtectedRoute from "./ProtectedRoute";
-import ResetPassword from "../../pages/Authentication/ResetPassword";
+import ResetPassword from "../Authentication/ResetPassword";
+import CreateDeck from "../Decks/CreateDeck";
+import DecksPage from "../Decks/DecksPage";
+import CardsPage from "../Cards/CardsPage";
+import React, { useState } from "react";
+import EditDeck from "../Decks/EditDeck";
 
 const routes = (
   <Routes>
     <Route exact path="/" element={<Home />} />
-    <Route path="/cards" element={<Cards />} />
+    <Route path="/cards" element={<CardsPage />} />
     <Route path="/login" element={<Login />} />
     <Route path="/register" element={<Register />} />
     <Route path="/forgotten-password" element={<ResetPassword />} />
@@ -21,7 +24,23 @@ const routes = (
       path="/decks"
       element={
         <ProtectedRoute>
-          <Decks />
+          <DecksPage />
+        </ProtectedRoute>
+      }
+    />
+    <Route
+      path="/create-deck"
+      element={
+        <ProtectedRoute>
+          <CreateDeck />
+        </ProtectedRoute>
+      }
+    />
+    <Route
+      path="/edit-deck/:id"
+      element={
+        <ProtectedRoute>
+          <EditDeck />
         </ProtectedRoute>
       }
     />
@@ -32,11 +51,38 @@ const Main = styled.main`
   padding: 2rem;
 `;
 
+export const DeckContext = React.createContext({});
+
 function Layout(props) {
+  const [allCards, setAllCards] = useState();
+  const [cards, setCards] = useState([]);
+  const [faction, setFaction] = useState(null);
+
+  function addCount(card, count) {
+    const cardFromDeck = cards.find((c) => c.slug === card.slug);
+    if (!cardFromDeck) {
+      cards.push({ count, ...card });
+    } else {
+      cardFromDeck.count = count;
+    }
+  }
+
+  const defaultValue = {
+    allCards,
+    setAllCards,
+    faction,
+    setFaction,
+    addCount,
+    cards,
+    setCards,
+  };
+
   return (
     <Router>
       <Header />
-      <Main>{routes}</Main>
+      <DeckContext.Provider value={defaultValue}>
+        <Main>{routes}</Main>
+      </DeckContext.Provider>
     </Router>
   );
 }
