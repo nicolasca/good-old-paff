@@ -23,6 +23,9 @@ function Header() {
         <li>
           <NavLink to="/cards">Cartes</NavLink>
         </li>
+        <li>
+          <NavLink to="/lobby">Lobby</NavLink>
+        </li>
       </NavList>
     </HeaderStyled>
   );
