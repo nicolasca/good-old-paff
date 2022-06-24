@@ -12,6 +12,7 @@ import CardsPage from "../Cards/CardsPage";
 import React, { useState } from "react";
 import EditDeck from "../Decks/EditDeck";
 import Lobby from "../Lobby/Lobby";
+import GameStarted from "../Game/GameStarted";
 
 const routes = (
   <Routes>
@@ -50,6 +51,14 @@ const routes = (
       element={
         <ProtectedRoute>
           <Lobby />
+        </ProtectedRoute>
+      }
+    />
+    <Route
+      path="/game"
+      element={
+        <ProtectedRoute>
+          <GameStarted />
         </ProtectedRoute>
       }
     />

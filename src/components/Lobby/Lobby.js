@@ -1,16 +1,20 @@
 import { addDoc, collection, deleteDoc, doc, setDoc } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useCollection } from "react-firebase-hooks/firestore";
+import {
+  useCollection,
+  useCollectionData,
+} from "react-firebase-hooks/firestore";
+import { useNavigate } from "react-router-dom";
 import { auth, db } from "../..";
 
 export default function Lobby() {
+  const navigate = useNavigate();
   const [user] = useAuthState(auth);
   const [userInLobby, setUserInLobby] = useState(false);
-  const [isPlayerReady, setPlayerReady] = useState(false);
 
   const lobbyRef = collection(db, "lobby");
-  const [lobby, loading, error] = useCollection(lobbyRef, {
+  const [lobby, loading, error] = useCollectionData(lobbyRef, {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
 
@@ -33,13 +37,28 @@ export default function Lobby() {
     };
   }, [user.uid]);
 
-  useEffect(() => {
-    const player =
-      lobby && lobby.docs.find((p) => p.data().email === user.email);
-    if (player) {
-      setUserInLobby(player.data());
+  const checkLobbyIsFull = useCallback(() => {
+    const twoPlayers = lobby.length === 2;
+    let playersReady = !lobby.some((p) => p.isReady === false);
+    const isFull = twoPlayers && playersReady;
+
+    if (isFull) {
+      navigate("/game", { replace: true });
     }
-  }, [lobby, user.email]);
+  }, [lobby, navigate]);
+
+  useEffect(() => {
+    const player = lobby && lobby.find((p) => p.email === user.email);
+    if (player) {
+      setUserInLobby(player);
+    } else {
+      setUserInLobby(null);
+    }
+
+    if (lobby) {
+      checkLobbyIsFull();
+    }
+  }, [lobby, user.email, checkLobbyIsFull]);
 
   const joinLobby = async () => {
     await setDoc(doc(db, "lobby", user.uid), {
@@ -69,8 +88,7 @@ export default function Lobby() {
 
       {lobby && (
         <div>
-          {lobby.docs.map((l) => {
-            const player = l.data();
+          {lobby.map((player) => {
             return (
               <article key={player.email}>
                 <p>
