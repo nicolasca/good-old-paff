@@ -1,4 +1,6 @@
 const { Server, FlatFile, Origins } = require("boardgame.io/server");
+const serve = require("koa-static");
+const path = require("path");
 const { default: PAFF } = require("./components/Game/PAFF");
 // import PAFF from "./game/PAFF";
 
@@ -17,6 +19,16 @@ const server = Server({
   }),
 });
 
+// Build path relative to the server.js file
+const frontEndAppBuildPath = path.resolve(__dirname, "./build");
+server.app.use(serve(frontEndAppBuildPath));
+
 server.run(PORT, () => {
-  console.log(`Serving at: http://localhost:${PORT}/`);
+  server.app.use(
+    async (ctx, next) =>
+      await serve(frontEndAppBuildPath)(
+        Object.assign(ctx, { path: "index.html" }),
+        next
+      )
+  );
 });
