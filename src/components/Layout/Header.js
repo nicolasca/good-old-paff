@@ -5,11 +5,14 @@ import styled from "styled-components";
 import { auth } from "../..";
 
 const HeaderStyled = styled.header`
+  isolation: isolate;
   display: flex;
   justify-content: space-between;
-  padding: 0 2rem;
+  padding: 0.5rem 2rem;
+
   li a.active {
-    color: blue;
+    color: indianred;
+    font-weight: 600;
   }
 `;
 
@@ -41,9 +44,14 @@ function Header() {
           <NavLink to="/cards">Cartes</NavLink>
         </li>
         {user ? (
-          <li>
-            <NavLink to="/decks">Decks</NavLink>{" "}
-          </li>
+          <>
+            <li>
+              <NavLink to="/decks">Decks</NavLink>{" "}
+            </li>
+            <li>
+              <NavLink to={"/play"}>Jouer</NavLink>
+            </li>
+          </>
         ) : null}
       </NavList>
       <NavList>
