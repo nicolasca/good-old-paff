@@ -6,12 +6,13 @@ import { default as Board } from "./Game/Board";
 Game.minPlayers = 2;
 Game.maxPlayers = 2;
 
-const hostname = window.location.hostname;
+const { protocol, hostname, port } = window.location;
+const server = `${protocol}//${hostname}:${port}`;
 
 const LobbyView = () => (
   <Lobby
-    gameServer={`http://${hostname}:8000`}
-    lobbyServer={`http://${hostname}:8000`}
+    gameServer={server}
+    lobbyServer={server}
     gameComponents={[{ game: Game, board: Board }]}
     debug={false}
   />
