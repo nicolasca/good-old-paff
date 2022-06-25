@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { initializeApp } from "firebase/app";
-
+import { getAuth } from "firebase/auth";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
@@ -18,8 +18,11 @@ export const firebaseConfig = {
   messagingSenderId: "123103638005",
   appId: "1:123103638005:web:aeaf545831819acc5630bc",
 };
+
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
+
+export const auth = getAuth(app);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
