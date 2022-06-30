@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import CardReadMode from "./CardReadMode";
 import CardEditMode from "./CardEditMode";
-// import { factionsData, unitsData } from "../import";
 
 const CardsBlock = styled.div`
   //   display: flex;

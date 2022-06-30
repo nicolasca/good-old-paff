@@ -1,18 +1,14 @@
-import { collection, getDocs, orderBy, query } from "firebase/firestore/lite";
-import { useContext, useEffect, useState } from "react";
-import { db } from "../..";
-import { DeckContext } from "../Layout/Layout";
+import { useEffect, useState } from "react";
+import { useCards } from "../../contexts/CardsContext";
 import CardList from "./CardList";
 
 export default function CardsPage() {
-  const [factions, setFactions] = useState(null);
-  const [cardsToDisplay, setCardsToDisplay] = useState(null);
-  const { faction, setFaction, allCards, setAllCards } =
-    useContext(DeckContext);
+  const [selectedFaction, setSelectedFaction] = useState(null);
+  const cardsByFactions = useCards();
 
   const factionsOptions =
-    factions &&
-    factions.map((faction) => {
+    cardsByFactions &&
+    cardsByFactions.map((faction) => {
       return (
         <option key={faction.id} value={faction.slug}>
           {faction.name}
@@ -20,55 +16,26 @@ export default function CardsPage() {
       );
     });
 
+  useEffect(() => {
+    setSelectedFaction(cardsByFactions[0]);
+  }, [cardsByFactions]);
+
   const handleChangeFaction = (event) => {
-    const selectedFaction = factions.find(
+    const selectedFaction = cardsByFactions.find(
       (faction) => event.target.value === faction.slug
     );
-    setFaction(selectedFaction);
-    const cardsOfFaction = [];
-    allCards.forEach((unit) => {
-      if (selectedFaction.id === unit.faction_id) {
-        cardsOfFaction.push(unit);
-      }
-    });
-    setCardsToDisplay(cardsOfFaction);
+    console.log(selectedFaction);
+    setSelectedFaction(selectedFaction);
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      // Factions
-      const factionsCol = collection(db, "factions");
-      const q = query(factionsCol, orderBy("name"));
-      const factionsSnapshot = await getDocs(q);
-      const factionList = factionsSnapshot.docs.map((doc) => doc.data());
-
-      const selectedFaction = factionList[0];
-      setFactions(factionList);
-      setFaction(selectedFaction);
-
-      // Cards
-      const cardsCol = collection(db, "units");
-      const cardsSnapshot = await getDocs(cardsCol);
-      const unitList = cardsSnapshot.docs.map((doc) => doc.data());
-      setAllCards(unitList);
-
-      const cardsOfFaction = [];
-      unitList.forEach((unit) => {
-        if (selectedFaction.id === unit.faction_id) {
-          cardsOfFaction.push(unit);
-        }
-      });
-      setCardsToDisplay(cardsOfFaction);
-    };
-    fetchData().catch((error) => console.log(error));
-  }, [setAllCards, setFaction]);
 
   return (
     <div>
-      {factions && factions.length > 0 ? (
+      {cardsByFactions && cardsByFactions.length > 0 ? (
         <select onChange={handleChangeFaction}>{factionsOptions}</select>
       ) : null}
-      {faction ? <CardList cards={cardsToDisplay} faction={faction} /> : null}
+      {selectedFaction ? (
+        <CardList cards={selectedFaction.cards} faction={selectedFaction} />
+      ) : null}
     </div>
   );
 }
