@@ -24,7 +24,6 @@ export default function CardsPage() {
     const selectedFaction = cardsByFactions.find(
       (faction) => event.target.value === faction.slug
     );
-    console.log(selectedFaction);
     setSelectedFaction(selectedFaction);
   };
 

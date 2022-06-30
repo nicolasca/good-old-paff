@@ -20,6 +20,7 @@ import GameStarted from "../Game/GameStarted";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "../..";
 import Main from "./Main";
+import { DecksProvider } from "../../contexts/DecksContext";
 
 const routes = (
   <Routes>
@@ -92,9 +93,11 @@ function Layout(props) {
     <Router>
       <Header />
       <CardsProvider>
-        {/* <DeckContext.Provider value={defaultValue}> */}
-        <Main>{routes}</Main>
-        {/* </DeckContext.Provider> */}
+        <DecksProvider>
+          {/* <DeckContext.Provider value={defaultValue}> */}
+          <Main>{routes}</Main>
+          {/* </DeckContext.Provider> */}
+        </DecksProvider>
       </CardsProvider>
     </Router>
   );
