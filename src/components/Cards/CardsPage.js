@@ -5,11 +5,20 @@ import { DeckContext } from "../Layout/Layout";
 import CardList from "./CardList";
 
 export default function CardsPage() {
-  const [factionsOptions, setFactionsOptions] = useState(null);
   const [factions, setFactions] = useState(null);
   const [cardsToDisplay, setCardsToDisplay] = useState(null);
   const { faction, setFaction, allCards, setAllCards } =
     useContext(DeckContext);
+
+  const factionsOptions =
+    factions &&
+    factions.map((faction) => {
+      return (
+        <option key={faction.id} value={faction.slug}>
+          {faction.name}
+        </option>
+      );
+    });
 
   const handleChangeFaction = (event) => {
     const selectedFaction = factions.find(
@@ -22,22 +31,8 @@ export default function CardsPage() {
         cardsOfFaction.push(unit);
       }
     });
-    console.log(cardsOfFaction);
     setCardsToDisplay(cardsOfFaction);
   };
-
-  useEffect(() => {
-    if (factions) {
-      const options = factions.map((faction) => {
-        return (
-          <option key={faction.id} value={faction.slug}>
-            {faction.name}
-          </option>
-        );
-      });
-      setFactionsOptions(options);
-    }
-  }, [factions]);
 
   useEffect(() => {
     const fetchData = async () => {

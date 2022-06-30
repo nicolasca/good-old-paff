@@ -1,4 +1,3 @@
-import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import CardReadMode from "./CardReadMode";
 import CardEditMode from "./CardEditMode";
@@ -16,51 +15,30 @@ const CardsWrapper = styled.div`
 `;
 
 export default function CardList({ faction, cards, isDeckCreating }) {
-  const [itemCards, setItemCards] = useState(null);
-
-  const createItemCardsReadMode = useCallback(() => {
-    return cards.map((card, index) => {
-      return (
-        <CardReadMode
-          key={card.slug + "_" + index}
-          card={card}
-          faction={faction}
-        />
-      );
-    });
-  }, [cards, faction]);
-
-  const createItemCardsEditMode = useCallback(() => {
-    return cards.map((card, index) => {
-      return (
-        <CardEditMode
-          key={card.slug + "_" + index}
-          card={card}
-          faction={faction}
-        />
-      );
-    });
-  }, [cards, faction]);
-
-  useEffect(() => {
-    if (faction && cards) {
-      if (!isDeckCreating) {
-        setItemCards(createItemCardsReadMode());
-      } else {
-        setItemCards(createItemCardsEditMode());
-      }
-    }
-  }, [
-    faction,
-    cards,
-    isDeckCreating,
-    createItemCardsReadMode,
-    createItemCardsEditMode,
-  ]);
+  const itemCards = () => {
+    return (
+      cards &&
+      cards.map((card, index) => {
+        return isDeckCreating ? (
+          <CardEditMode
+            key={card.slug + "_" + index}
+            card={card}
+            faction={faction}
+          />
+        ) : (
+          <CardReadMode
+            key={card.slug + "_" + index}
+            card={card}
+            faction={faction}
+          />
+        );
+      })
+    );
+  };
 
   return (
     <CardsBlock>
-      {faction ? <CardsWrapper>{itemCards}</CardsWrapper> : null}
+      {faction ? <CardsWrapper>{itemCards()}</CardsWrapper> : null}
     </CardsBlock>
   );
 }

@@ -15,7 +15,6 @@ import CardList from "../Cards/CardList";
 export default function DeckList() {
   const [deckList, setDeckList] = useState(null);
   const [selectedDeck, setSelectedDeck] = useState(null);
-  const [decksOptions, setDecksOptions] = useState(null);
 
   const [user] = useAuthState(auth);
 
@@ -47,18 +46,15 @@ export default function DeckList() {
     fetchData();
   }, [user.email]);
 
-  useEffect(() => {
-    if (deckList) {
-      const options = deckList.map((deck) => {
-        return (
-          <option key={deck.name} value={deck.name}>
-            {deck.name}
-          </option>
-        );
-      });
-      setDecksOptions(options);
-    }
-  }, [deckList]);
+  const decksOptions =
+    deckList &&
+    deckList.map((deck) => {
+      return (
+        <option key={deck.name} value={deck.name}>
+          {deck.name}
+        </option>
+      );
+    });
 
   return (
     <div>
