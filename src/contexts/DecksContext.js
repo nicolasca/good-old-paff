@@ -11,7 +11,10 @@ export function useDecksDispatch() {
   return useContext(DecksDispatchContext);
 }
 
-const initState = [];
+const initState = {
+  decks: [],
+  deckInEdition: null,
+};
 
 export const DecksProvider = ({ children }) => {
   const [decks, dispatch] = useReducer(decksReducer, initState);
@@ -24,10 +27,75 @@ export const DecksProvider = ({ children }) => {
   );
 };
 
-function decksReducer(decks, action) {
+function decksReducer(state, action) {
   switch (action.type) {
     case "initDecks": {
-      return action.decks;
+      return {
+        ...state,
+        decks: action.decks,
+      };
+    }
+    case "deleteDeck": {
+      const filteredDecks = state.decks.filter((d) => d.id !== action.id);
+      return {
+        ...state,
+        decks: filteredDecks,
+      };
+    }
+    case "createDeckInEdition": {
+      return {
+        ...state,
+        deckInEdition: { cards: action.faction.cards, faction: action.faction },
+      };
+    }
+    case "setDeckInEdition": {
+      return {
+        ...state,
+        deckInEdition: action.deck,
+      };
+    }
+    case "setName": {
+      return {
+        ...state,
+        deckInEdition: {
+          ...state.deckInEdition,
+          name: action.name,
+        },
+      };
+    }
+    case "addCount": {
+      const cards = state.deckInEdition.cards.map((card) => {
+        if (card.slug === action.card.slug) {
+          action.card.count = action.count;
+          return action.card;
+        } else {
+          return card;
+        }
+      });
+      state.deckInEdition.cards = cards;
+      return {
+        ...state,
+      };
+    }
+    case "updateAfterSave": {
+      const newDeckList = state.decks.map((deck) => {
+        if (deck.id === action.deck.id) {
+          return action.deck;
+        }
+        return deck;
+      });
+      return {
+        ...state,
+        decks: newDeckList,
+        deckInEdition: null,
+      };
+    }
+    case "addDeck": {
+      return {
+        ...state,
+        decks: [...state.decks, action.deck],
+        deckInEdition: null,
+      };
     }
     default: {
       break;

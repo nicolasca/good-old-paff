@@ -4,10 +4,10 @@ export const CardsContext = createContext(null);
 export const CardsDispatchContext = createContext(null);
 
 export const CardsProvider = ({ children }) => {
-  const [cards, dispatch] = useReducer(cardsReducer, initState);
+  const [cardsByFaction, dispatch] = useReducer(cardsReducer, initState);
 
   return (
-    <CardsContext.Provider value={cards}>
+    <CardsContext.Provider value={cardsByFaction}>
       <CardsDispatchContext.Provider value={dispatch}>
         {children}
       </CardsDispatchContext.Provider>
@@ -28,20 +28,23 @@ const initState = [];
 function cardsReducer(cards, action) {
   switch (action.type) {
     case "setCardsByFaction": {
-      const cards = action.cards;
+      const newCards = action.cards;
       const factions = action.factions;
-
+      const cardsByFaction = [];
       factions.forEach((faction) => {
-        cards.forEach((card) => {
-          if (!faction.cards) {
-            faction.cards = [];
+        const factionToAdd = { ...faction }; // Make the function pure
+        newCards.forEach((card) => {
+          if (!factionToAdd.cards) {
+            factionToAdd.cards = [];
           }
-          if (faction.id === card.faction_id) {
-            faction.cards.push(card);
+          if (factionToAdd.id === card.faction_id) {
+            card.count = 0;
+            factionToAdd.cards.push(card);
           }
         });
+        cardsByFaction.push(factionToAdd);
       });
-      return factions;
+      return cardsByFaction;
     }
     default: {
       break;

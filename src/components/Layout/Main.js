@@ -52,7 +52,9 @@ export default function Main({ children }) {
         decks: deckList,
       });
     };
-    fetchData();
+    if (user && user.email) {
+      fetchData();
+    }
   }, [decksDispatch, user]);
 
   return <MainWrapper>{children}</MainWrapper>;
