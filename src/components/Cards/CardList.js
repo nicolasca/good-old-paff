@@ -13,7 +13,8 @@ const CardsWrapper = styled.div`
   gap: 2rem;
 `;
 
-export default function CardList({ faction, cards, isDeckCreating }) {
+export default function CardList({ faction, isDeckCreating }) {
+  const cards = faction.cards;
   const itemCards = () => {
     return (
       cards &&

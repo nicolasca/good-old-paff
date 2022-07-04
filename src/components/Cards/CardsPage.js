@@ -32,9 +32,7 @@ export default function CardsPage() {
       {cardsByFactions && cardsByFactions.length > 0 ? (
         <select onChange={handleChangeFaction}>{factionsOptions}</select>
       ) : null}
-      {selectedFaction ? (
-        <CardList cards={selectedFaction.cards} faction={selectedFaction} />
-      ) : null}
+      {selectedFaction ? <CardList faction={selectedFaction} /> : null}
     </div>
   );
 }

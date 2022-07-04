@@ -1,10 +1,11 @@
-import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import styled from "styled-components";
 import { auth, db } from "../..";
 import { useCardsDispatch } from "../../contexts/CardsContext";
 import { useDecksDispatch } from "../../contexts/DecksContext";
+import useFirestoreData from "../../hooks/useFirestoreData";
 
 const MainWrapper = styled.main`
   padding: 2rem;
@@ -16,27 +17,19 @@ export default function Main({ children }) {
 
   const [user] = useAuthState(auth);
 
-  // Get the factions and cards
-  useEffect(() => {
-    const fetchData = async () => {
-      // Factions
-      const factionsCol = collection(db, "factions");
-      const q = query(factionsCol, orderBy("name"));
-      const factionsSnapshot = await getDocs(q);
-      const factionList = factionsSnapshot.docs.map((doc) => doc.data());
+  // Factions & Cards
+  const factionList = useFirestoreData("factions");
+  const cardList = useFirestoreData("units");
 
-      // Cards
-      const cardsCol = collection(db, "units");
-      const cardsSnapshot = await getDocs(cardsCol);
-      const unitList = cardsSnapshot.docs.map((doc) => doc.data());
+  useEffect(() => {
+    if (factionList && cardList) {
       cardsDispatch({
         type: "setCardsByFaction",
-        cards: unitList,
+        cards: cardList,
         factions: factionList,
       });
-    };
-    fetchData().catch((error) => console.log(error));
-  }, [cardsDispatch]);
+    }
+  }, [cardsDispatch, factionList, cardList]);
 
   // Get the decks hen the user is authenticated
   useEffect(() => {
