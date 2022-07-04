@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
+import styled from "styled-components";
 import { useCards } from "../../contexts/CardsContext";
+import Select from "../../ui/Select/select";
 import CardList from "./CardList";
+
+const SelectWrapper = styled.div`
+  margin-bottom: 2rem;
+`;
 
 export default function CardsPage() {
   const [selectedFaction, setSelectedFaction] = useState(null);
@@ -29,8 +35,12 @@ export default function CardsPage() {
 
   return (
     <div>
-      {cardsByFactions && cardsByFactions.length > 0 ? (
-        <select onChange={handleChangeFaction}>{factionsOptions}</select>
+      {cardsByFactions && cardsByFactions.length > 0 && selectedFaction ? (
+        <SelectWrapper>
+          <Select value={selectedFaction.slug} onChange={handleChangeFaction}>
+            {factionsOptions}
+          </Select>
+        </SelectWrapper>
       ) : null}
       {selectedFaction ? (
         <CardList cards={selectedFaction.cards} faction={selectedFaction} />

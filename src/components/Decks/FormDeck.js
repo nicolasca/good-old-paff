@@ -4,6 +4,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../..";
 import { useDecks, useDecksDispatch } from "../../contexts/DecksContext";
+import Button from "../../ui/Button/Button";
 
 export default function FormDeck() {
   const [deckName, setDeckName] = useState("");
@@ -40,7 +41,9 @@ export default function FormDeck() {
 
   return (
     <div>
-      <button onClick={handleSaveDeck}>Enregistrer</button>
+      <Button size="small" variant="outline" onClick={handleSaveDeck}>
+        Enregistrer
+      </Button>
       <div>
         <label htmlFor="deckName">Nom du deck</label>
         <input

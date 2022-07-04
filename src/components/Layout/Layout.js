@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import styled from "styled-components";
 import Home from "../Home/Home";
 import Header from "./Header";
 import Register from "../Authentication/Register";
@@ -12,13 +11,8 @@ import DecksPage from "../Decks/DecksPage";
 import CardsPage from "../Cards/CardsPage";
 import EditDeck from "../Decks/EditDeck";
 import Lobby from "../Lobby/Lobby";
-import {
-  CardsProvider,
-  useCardsDispatch,
-} from "../../contexts/CardsContext.js";
+import { CardsProvider } from "../../contexts/CardsContext.js";
 import GameStarted from "../Game/GameStarted";
-import { collection, getDocs, orderBy, query } from "firebase/firestore";
-import { db } from "../..";
 import Main from "./Main";
 import { DecksProvider } from "../../contexts/DecksContext";
 

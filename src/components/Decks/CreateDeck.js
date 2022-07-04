@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useCards } from "../../contexts/CardsContext";
 import { useDecks, useDecksDispatch } from "../../contexts/DecksContext";
+import Select from "../../ui/Select/select";
 import CardList from "../Cards/CardList";
 import FormDeck from "./FormDeck";
 
@@ -39,8 +40,13 @@ const CreateDeck = () => {
     <div>
       <h2>Créer un deck</h2>
       <FormDeck />
-      {cardsByFaction ? (
-        <select onChange={handleChangeFaction}>{factionsOptions}</select>
+      {cardsByFaction && deckInEdition ? (
+        <Select
+          value={deckInEdition.faction.slug}
+          onChange={handleChangeFaction}
+        >
+          {factionsOptions}
+        </Select>
       ) : null}
       {deckInEdition ? (
         <CardList
