@@ -1,10 +1,7 @@
-import { addDoc, collection, deleteDoc, doc, setDoc } from "firebase/firestore";
+import { collection, deleteDoc, doc, setDoc } from "firebase/firestore";
 import { useCallback, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import {
-  useCollection,
-  useCollectionData,
-} from "react-firebase-hooks/firestore";
+import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../..";
 
@@ -14,7 +11,7 @@ export default function Lobby() {
   const [userInLobby, setUserInLobby] = useState(false);
 
   const lobbyRef = collection(db, "lobby");
-  const [lobby, loading, error] = useCollectionData(lobbyRef, {
+  const [lobby] = useCollectionData(lobbyRef, {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
 

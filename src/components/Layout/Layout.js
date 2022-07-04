@@ -1,5 +1,5 @@
+import React from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import styled from "styled-components";
 import Home from "../Home/Home";
 import Header from "./Header";
 import Register from "../Authentication/Register";
@@ -9,10 +9,12 @@ import ResetPassword from "../Authentication/ResetPassword";
 import CreateDeck from "../Decks/CreateDeck";
 import DecksPage from "../Decks/DecksPage";
 import CardsPage from "../Cards/CardsPage";
-import React, { useState } from "react";
 import EditDeck from "../Decks/EditDeck";
 import Lobby from "../Lobby/Lobby";
+import { CardsProvider } from "../../contexts/CardsContext.js";
 import GameStarted from "../Game/GameStarted";
+import Main from "./Main";
+import { DecksProvider } from "../../contexts/DecksContext";
 
 const routes = (
   <Routes>
@@ -65,42 +67,32 @@ const routes = (
   </Routes>
 );
 
-const Main = styled.main`
-  padding: 2rem;
-`;
-
 export const DeckContext = React.createContext({});
 
 function Layout(props) {
-  const [allCards, setAllCards] = useState();
-  const [cards, setCards] = useState([]);
-  const [faction, setFaction] = useState(null);
+  // const [allCards, setAllCards] = useState();
+  // const [cards, setCards] = useState([]);
+  // const [faction, setFaction] = useState(null);
 
-  function addCount(card, count) {
-    const cardFromDeck = cards.find((c) => c.slug === card.slug);
-    if (!cardFromDeck) {
-      cards.push({ count, ...card });
-    } else {
-      cardFromDeck.count = count;
-    }
-  }
-
-  const defaultValue = {
-    allCards,
-    setAllCards,
-    faction,
-    setFaction,
-    addCount,
-    cards,
-    setCards,
-  };
+  // function addCount(card, count) {
+  //   const cardFromDeck = cards.find((c) => c.slug === card.slug);
+  //   if (!cardFromDeck) {
+  //     cards.push({ count, ...card });
+  //   } else {
+  //     cardFromDeck.count = count;
+  //   }
+  // }
 
   return (
     <Router>
       <Header />
-      <DeckContext.Provider value={defaultValue}>
-        <Main>{routes}</Main>
-      </DeckContext.Provider>
+      <CardsProvider>
+        <DecksProvider>
+          {/* <DeckContext.Provider value={defaultValue}> */}
+          <Main>{routes}</Main>
+          {/* </DeckContext.Provider> */}
+        </DecksProvider>
+      </CardsProvider>
     </Router>
   );
 }

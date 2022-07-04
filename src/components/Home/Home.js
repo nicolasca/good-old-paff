@@ -68,7 +68,7 @@ const FirstSectionBis = styled.div`
     }
     80%,
     100% {
-      transform: translateY(60vh) scaleX(0.85) rotate(45deg);
+      transform: translateY(80vh) scaleX(0.85) rotate(45deg);
     }
   }
 `;

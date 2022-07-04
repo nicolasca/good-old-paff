@@ -7953,7 +7953,7 @@
     "kleur" "^3.0.3"
     "sisteransi" "^1.0.5"
 
-"prop-types@^15.8.1":
+"prop-types@^15.7.2", "prop-types@^15.8.1":
   "integrity" "sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg=="
   "resolved" "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   "version" "15.8.1"
@@ -8112,6 +8112,13 @@
   "resolved" "https://registry.npmjs.org/react-error-overlay/-/react-error-overlay-6.0.11.tgz"
   "version" "6.0.11"
 
+"react-feather@^2.0.10":
+  "integrity" "sha512-BLhukwJ+Z92Nmdcs+EMw6dy1Z/VLiJTzEQACDUEnWMClhYnFykJCGWQx+NmwP/qQHGX/5CzQ+TGi8ofg2+HzVQ=="
+  "resolved" "https://registry.npmjs.org/react-feather/-/react-feather-2.0.10.tgz"
+  "version" "2.0.10"
+  dependencies:
+    "prop-types" "^15.7.2"
+
 "react-firebase-hooks@^5.0.3":
   "integrity" "sha512-0+V2XwInZJNjW8B2cm+U21Hlv4xnp/1tJqIoDg2rjyWzKTQ9VoLPQ9PAt+fMqPumjLz5uCIREY7YqGSSjc439Q=="
   "resolved" "https://registry.npmjs.org/react-firebase-hooks/-/react-firebase-hooks-5.0.3.tgz"
@@ -8212,7 +8219,7 @@
   optionalDependencies:
     "fsevents" "^2.3.2"
 
-"react@^18.0.0", "react@^18.2.0", "react@>= 16", "react@>= 16.8.0", "react@>=16.8":
+"react@^18.0.0", "react@^18.2.0", "react@>= 16", "react@>= 16.8.0", "react@>=16.8", "react@>=16.8.6":
   "integrity" "sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ=="
   "resolved" "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
   "version" "18.2.0"
