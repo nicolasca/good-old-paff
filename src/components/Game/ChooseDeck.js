@@ -18,7 +18,6 @@ export default function ChooseDeck() {
     const [user] = useAuthState(auth);
     const { decks } = useDecks();
     const gameStore = useGameStore();
-
     const gameRef = collection(db, "game");
     const [game] = useCollectionData(gameRef, {
         snapshotListenOptions: { includeMetadataChanges: true },
