@@ -12,9 +12,10 @@ import CardsPage from "../Cards/CardsPage";
 import EditDeck from "../Decks/EditDeck";
 import Lobby from "../Lobby/Lobby";
 import { CardsProvider } from "../../contexts/CardsContext.js";
-import GameStarted from "../Game/GameStarted";
 import Main from "./Main";
 import { DecksProvider } from "../../contexts/DecksContext";
+import ChooseDeck from "../Game/ChooseDeck";
+import GameStarted from "../Game/GameStarted";
 
 const routes = (
   <Routes>
@@ -57,11 +58,19 @@ const routes = (
       }
     />
     <Route
+      path="/choose-deck"
+      element={
+        // <ProtectedRoute>
+          <ChooseDeck />
+        // </ProtectedRoute>
+      }
+    />
+        <Route
       path="/game"
       element={
-        <ProtectedRoute>
+        // <ProtectedRoute>
           <GameStarted />
-        </ProtectedRoute>
+        // </ProtectedRoute>
       }
     />
   </Routes>
