@@ -36,24 +36,3 @@
     transform: rotate(360deg);
   }
 }
-
-:root {
-  --shadow-color: 0deg 0% 0%;
-  --shadow-elevation-low:
-    0.5px 0.5px 0.7px hsl(var(--shadow-color) / 0.39),
-    0.7px 0.7px 0.9px -1.8px hsl(var(--shadow-color) / 0.31),
-    1.6px 1.7px 2.2px -3.6px hsl(var(--shadow-color) / 0.23);
-  --shadow-elevation-medium:
-    0.5px 0.5px 0.7px hsl(var(--shadow-color) / 0.41),
-    1.1px 1.1px 1.5px -1.2px hsl(var(--shadow-color) / 0.35),
-    3.1px 3.2px 4.2px -2.4px hsl(var(--shadow-color) / 0.28),
-    8.2px 8.5px 11.2px -3.6px hsl(var(--shadow-color) / 0.22);
-  --shadow-elevation-high:
-    0.5px 0.5px 0.7px hsl(var(--shadow-color) / 0.44),
-    1.6px 1.7px 2.2px -0.6px hsl(var(--shadow-color) / 0.4),
-    3.4px 3.5px 4.6px -1.2px hsl(var(--shadow-color) / 0.36),
-    6.7px 7px 9.2px -1.8px hsl(var(--shadow-color) / 0.32),
-    12.6px 13.2px 17.4px -2.4px hsl(var(--shadow-color) / 0.28),
-    22.1px 23.1px 30.5px -3px hsl(var(--shadow-color) / 0.24),
-    36.1px 37.7px 49.7px -3.6px hsl(var(--shadow-color) / 0.2);
-}

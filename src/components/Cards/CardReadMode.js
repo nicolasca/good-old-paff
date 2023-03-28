@@ -7,8 +7,6 @@ const CardWrapper = styled.div`
     transform: rotate3d(0, 1, 0, 10deg);
   }
 
-  box-shadow:  var(--shadow-elevation-medium);
-
   img {
     object-fit: contain;
   }

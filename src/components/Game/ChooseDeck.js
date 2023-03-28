@@ -57,7 +57,7 @@ export default function ChooseDeck() {
         <>
             <div> Choisir son deck</div>
             {user && gameStore && gameStore.decks[user.uid] && <div>Deck choisi : {gameStore.decks[user.uid].name}</div>}
-            <SelectDecks decks={decks} />
+            <SelectDecks decks={decks} onChange={(deck) => setSelectedDeck(deck)}/>
             <button onClick={handleValidateDeck}>Valider</button>
         </>
     )

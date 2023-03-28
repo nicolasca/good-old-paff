@@ -4,7 +4,6 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../..";
 import { useDecks, useDecksDispatch } from "../../contexts/DecksContext";
-import Button from "../../ui/Button/Button";
 
 export default function FormDeck() {
   const [deckName, setDeckName] = useState("");

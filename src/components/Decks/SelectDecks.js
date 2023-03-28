@@ -13,6 +13,7 @@ export default function SelectDecks({decks, onChange}) {
     const handleDeckChange = (e) => {
       const newDeckSelected = decks.find((d) => d.name === e.target.value);
       setSelectedDeck(newDeckSelected);
+      onChange(newDeckSelected);
     };
 
     const decksOptions =
