@@ -4,11 +4,16 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../..";
+import { useGameStore } from "../../contexts/GameContext";
 
 export default function Lobby() {
+  const [checkingLobby, setCheckingLobby] = useState(false);
   const navigate = useNavigate();
   const [user] = useAuthState(auth);
   const [userInLobby, setUserInLobby] = useState(false);
+
+  const gameStore = useGameStore();
+
 
   const lobbyRef = collection(db, "lobby");
   const [lobby] = useCollectionData(lobbyRef, {
@@ -34,15 +39,36 @@ export default function Lobby() {
     };
   }, [user.uid]);
 
-  const checkLobbyIsFull = useCallback(() => {
+  const checkLobbyIsFull = useCallback(async () => {
+    if (checkingLobby) return;
+    setCheckingLobby(true);
+  
     const twoPlayers = lobby.length === 2;
     let playersReady = !lobby.some((p) => p.isReady === false);
     const isFull = twoPlayers && playersReady;
-
+  
     if (isFull) {
+      // Add this condition to ensure only the first player creates the game document
+      if (lobby[0].email === user.email) {
+        const randomName = Math.random().toString(36).substring(2, 7);
+        const names = lobby.map(({ displayName }) => displayName);
+        const gameName = `${names[0]} vs ${names[1]}`;
+  
+        await setDoc(doc(db, "game", randomName), {
+          id: randomName,
+          name: `${names[0]} vs ${names[1]}`,
+          player1: lobby[0],
+          player2: lobby[1],
+        });
+        gameStore.setId(randomName);
+        gameStore.setName(gameName);
+      }
+
+      // Both players navigate
       navigate("/game", { replace: true });
     }
-  }, [lobby, navigate]);
+    setCheckingLobby(false);
+  }, [gameStore, checkingLobby, lobby, navigate, user.email]);
 
   useEffect(() => {
     const player = lobby && lobby.find((p) => p.email === user.email);

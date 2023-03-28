@@ -16,6 +16,7 @@ export default function FormDeck() {
   const navigate = useNavigate();
 
   const handleSaveDeck = async () => {
+    console.log("try to save")
     const cardsToSave = deckInEdition.cards.filter((card) => {
       return card.count > 0;
     });
@@ -41,9 +42,9 @@ export default function FormDeck() {
 
   return (
     <div>
-      <Button size="small" variant="outline" onClick={handleSaveDeck}>
+      <button size="small" variant="outline" onClick={handleSaveDeck}>
         Enregistrer
-      </Button>
+      </button>
       <div>
         <label htmlFor="deckName">Nom du deck</label>
         <input

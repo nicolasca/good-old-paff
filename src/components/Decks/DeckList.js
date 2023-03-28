@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { db } from "../..";
 import { useDecks, useDecksDispatch } from "../../contexts/DecksContext";
 import Button from "../../ui/Button/Button";
-import Select from "../../ui/Select/select";
 import CardList from "../Cards/CardList";
 
 export default function DeckList() {
@@ -34,23 +33,11 @@ export default function DeckList() {
     }
   };
 
-  const decksOptions =
-    decks &&
-    decks.map((deck) => {
-      return (
-        <option key={deck.name} value={deck.name}>
-          {deck.name}
-        </option>
-      );
-    });
-
   return (
     <div>
       {decks && selectedDeck && decks.length > 0 ? (
         <>
-          <Select value={selectedDeck.name} onChange={handleDeckChange}>
-            {decksOptions}
-          </Select>
+          <DeckList decks={decks} onChange={handleDeckChange} />
           <button>
             <Link to={"/edit-deck/" + selectedDeck.id}>Modifier le deck</Link>
           </button>
