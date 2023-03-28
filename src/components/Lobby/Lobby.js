@@ -40,32 +40,35 @@ export default function Lobby() {
   }, [user.uid]);
 
   const checkLobbyIsFull = useCallback(async () => {
-
     if (checkingLobby) return;
     setCheckingLobby(true);
-
+  
     const twoPlayers = lobby.length === 2;
     let playersReady = !lobby.some((p) => p.isReady === false);
     const isFull = twoPlayers && playersReady;
-
+  
     if (isFull) {
-      const randomName = Math.random().toString(36).substring(2,7);
-      const names = lobby.map(({ displayName }) => displayName)
-      const gameName = `${names[0]} vs ${names[1]}`;
+      // Add this condition to ensure only the first player creates the game document
+      if (lobby[0].email === user.email) {
+        const randomName = Math.random().toString(36).substring(2, 7);
+        const names = lobby.map(({ displayName }) => displayName);
+        const gameName = `${names[0]} vs ${names[1]}`;
+  
+        await setDoc(doc(db, "game", randomName), {
+          id: randomName,
+          name: `${names[0]} vs ${names[1]}`,
+          player1: lobby[0],
+          player2: lobby[1],
+        });
+        gameStore.setId(randomName);
+        gameStore.setName(gameName);
+      }
 
-      console.log("add a game")
-      await setDoc(doc(db, "game", randomName ), {
-        id: randomName,
-        name: `${names[0]} vs ${names[1]}`,
-        player1: lobby[0],
-        player2: lobby[1],
-      })
-      gameStore.setId(randomName);
-      gameStore.setName(gameName);
+      // Both players navigate
       navigate("/game", { replace: true });
     }
     setCheckingLobby(false);
-  }, [gameStore, checkingLobby, lobby, navigate]);
+  }, [gameStore, checkingLobby, lobby, navigate, user.email]);
 
   useEffect(() => {
     const player = lobby && lobby.find((p) => p.email === user.email);

@@ -2,9 +2,17 @@ import styled from "styled-components";
 import { useDecksDispatch } from "../../contexts/DecksContext";
 
 const CardWrapper = styled.div`
+  max-width 300px;
   transition: transform 1s;
   &:hover {
     transform: rotate3d(0, 1, 0, 10deg);
+  }
+
+  box-shadow:  var(--shadow-elevation-medium);
+
+
+  img {
+    object-fit: contain;
   }
 `;
 
