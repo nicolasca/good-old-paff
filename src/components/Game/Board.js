@@ -1,8 +1,9 @@
-import { Edges, GizmoHelper, GizmoViewport, MapControls, MeshTransmissionMaterial, OrbitControls, Plane, Text } from "@react-three/drei";
+import { Box, Edges, GizmoHelper, GizmoViewport, MapControls, MeshTransmissionMaterial, OrbitControls, Plane, Text } from "@react-three/drei";
 import { Canvas, useThree } from "@react-three/fiber";
 import { useMemo, useRef, useState } from "react";
-import { useControls } from 'leva'
+import { Leva, useControls } from 'leva'
 import * as THREE from "three"
+import { CardInGame } from "./CardInGame";
 
 const cardHeight = 1.4;
 const cardWidth = 1;
@@ -14,22 +15,19 @@ const planePadding = 0.1
 function CardField({ position, index, color }) {
     // const cardTexture = useTexture('path/to/cardTexture.png');
     const { cardRotation } = useControls('cards', {
-
         cardRotation: {
             value: [0, 0, 0],
             step: 0.1,
             joystick: 'invertY'
         }
     })
-
-
     return (
         <Plane args={[cardWidth, cardHeight]} position={position} rotation={cardRotation}>
-            <Text scale={0.2} anchorX="center" anchorY="middle" position-z={0.2} color="black">{index}</Text>
-            <meshBasicMaterial color={color} opacity={0.2}  transparent={!color}/>
-            <Edges visible={true}  scale={1} renderOrder={1000}>
+            {/* <Text scale={0.2} anchorX="center" anchorY="middle" position-z={0.2} color="black">{index}</Text> */}
+            <meshBasicMaterial color={color} opacity={0.2} transparent={!color} />
+            <Edges visible={true} scale={1} renderOrder={100}>
                 <meshBasicMaterial transparent color="#333" depthTest={false} />
-             </Edges>
+            </Edges>
         </Plane>
     );
 }
@@ -38,7 +36,7 @@ function FogEffect() {
     const { scene } = useThree();
     scene.fog = new THREE.Fog("white", 25, 30);
     return null;
-  }
+}
 
 export default function Board({ gameStore }) {
 
@@ -64,12 +62,13 @@ export default function Board({ gameStore }) {
         }
         return cards;
     }
-    
+
     const leftField = useMemo(() => generateCardFields(0, 2, true), []);
     const flancCoco = useMemo(() => generateCardFields(2, 3, false, "black"), []);
     const middleField = useMemo(() => generateCardFields(3, 7, true), []);
     const flancPomme = useMemo(() => generateCardFields(7, 8, false, "black"), []);
     const rightField = useMemo(() => generateCardFields(8, 11, true), []);
+
 
     const { planeRotation, planePosition, color, visible } = useControls('field', {
         planePosition: {
@@ -93,45 +92,43 @@ export default function Board({ gameStore }) {
             joystick: 'invertY'
         },
         groupRotation: {
-            value: [-0.5, 0, 0],
+            value: [-0.2, 0, 0],
             step: 0.1,
             joystick: 'invertY'
         },
     })
 
+    const path = `${process.env.PUBLIC_URL}/images/elfes/sable-poison.jpg`
+    console.log(path)
+
     return (
-        <Canvas
-            
-           camera={{ position: [0, 0, 5], zoom: 1, up: [0, 0, 1], far: 100 }}
-            // camera={{
-            //     fov: 45,
-            //     near: 0.1,
-            //     far: 50,
-            //     position: [0, 0, 10]
-            // }}
-        >
-            <MapControls />
-            <GizmoHelper
-                alignment="bottom-right" // widget alignment within scene
-                margin={[80, 80]} // widget margins (X, Y)
-            >
-                <GizmoViewport axisColors={['red', 'green', 'blue']} labelColor="black" />
-                {/* alternative: <GizmoViewcube /> */}
-            </GizmoHelper>
-            <ambientLight />
-            {/* <FogEffect /> */}
-            <group position={groupPosition} rotation={groupRotation}>
-                <Plane args={[fieldWidth, fieldHeight]}
-                    visible={visible}
-                    material-color={color}
-                    position={planePosition} rotation={planeRotation} />
+        <>
+            <Leva collapsed />
+            <Canvas camera={{ position: [0, 0, 5], zoom: 1, up: [0, 0, 1], far: 100 }}>
+                <MapControls makeDefault />
+                <GizmoHelper
+                    alignment="bottom-right"
+                    margin={[80, 80]}
+                >
+                    <GizmoViewport axisColors={['red', 'green', 'blue']} labelColor="black" />
+
+                </GizmoHelper>
+                <ambientLight />
+                {/* <FogEffect /> */}
+                <CardInGame path={path} />
+                <group position={groupPosition} rotation={groupRotation}>
+                    <Plane args={[fieldWidth, fieldHeight]}
+                        visible={visible}
+                        material-color={color}
+                        position={planePosition} rotation={planeRotation} />
                     {leftField}
                     {middleField}
                     {rightField}
-                {flancCoco}
-                {flancPomme}
-            </group>
-        </Canvas>
+                    {flancCoco}
+                    {flancPomme}
+                </group>
+            </Canvas>
+        </>
 
     );
 }
