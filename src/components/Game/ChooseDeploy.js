@@ -1,39 +1,52 @@
-import { doc, updateDoc } from "firebase/firestore";
+import { collection, doc, setDoc, updateDoc } from "firebase/firestore";
 import { useCallback, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { useNavigate, useParams } from "react-router-dom";
 import { auth, db } from "../..";
-import { useDecks } from "../../contexts/DecksContext";
 import { useGameStore } from "../../contexts/GameContext";
-import SelectDecks from "../Decks/SelectDecks";
+import CardList from "../Cards/CardList";
 
-export default function ChooseDeck() {
+export default function ChooseDeploy() {
 
     const navigate = useNavigate();
     const { gameId } = useParams()
 
     console.log(gameId)
 
-    const [selectedDeck, setSelectedDeck] = useState(null);
 
     //Get the game store
     const [user] = useAuthState(auth);
-    const { decks } = useDecks();
     const gameStore = useGameStore();
     const gameRef = doc(db, "game", gameId);
     const [game] = useDocumentData(gameRef, {
         snapshotListenOptions: { includeMetadataChanges: false },
     });
 
-    useEffect(() => {
-        setSelectedDeck(decks[0]);
-    }, [decks]);
+    console.log(game)
 
-    const handleValidateDeck = () => {
-        gameStore.setDeck(selectedDeck, user.uid);
+    const deck = gameStore.decks[user.uid];
+
+
+    const getHandFromDeck = (deck) => {
+        const hand = []
+        deck.cards.forEach((card, i) => {
+            for (let number = 0; number < card.count; number++) {
+              const cardCopy = { ...card.carte };
+              let carteGameId = `${i}-${number}`;
+              cardCopy["gameCardId"] = carteGameId;
+              hand.push(cardCopy);
+            }
+          });
+        return hand;
+    }
+
+
+    const handleValidateDeploy = () => {
+        const hand = getHandFromDeck();
+        gameStore.setDeck(deck, user.uid);
         updateDoc(game, {
-            [`decks.${user.uid}`]: selectedDeck
+            
         });
     }
 
@@ -57,10 +70,11 @@ export default function ChooseDeck() {
 
     return (
         <>
-            <div> Choisir son deck</div>
-            {user && gameStore && gameStore.decks[user.uid] && <div>Deck choisi : {gameStore.decks[user.uid].name}</div>}
-            <SelectDecks decks={decks} onChange={(deck) => setSelectedDeck(deck)}/>
-            <button onClick={handleValidateDeck}>Valider</button>
+            <div> Choisir ses unités à déployer</div>
+            {user && gameStore && gameStore.decks[user.uid] && 
+                <CardList cards={deck.cards} faction={deck.faction} />
+            }
+            <button onClick={handleValidateDeploy}>Valider</button>
         </>
     )
 }

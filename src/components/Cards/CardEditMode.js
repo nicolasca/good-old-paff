@@ -13,7 +13,7 @@ const CardWrapper = styled.div`
   }
 `;
 
-export default function CardEditMode({ card, faction }) {
+export default function CardEditMode({ card, faction, width = 357, height = 500 }) {
   const dispatch = useDecksDispatch();
 
   const handleCountChange = (e) => {
@@ -29,8 +29,8 @@ export default function CardEditMode({ card, faction }) {
       <img
         src={`${process.env.PUBLIC_URL}/images/${faction.slug}/${card.slug}.jpg`}
         alt={card.name}
-        width={357}
-        height={500}
+        width={width}
+        height={height}
       />
       <input
         type="number"

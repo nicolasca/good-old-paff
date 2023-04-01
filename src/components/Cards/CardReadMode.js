@@ -12,14 +12,14 @@ const CardWrapper = styled.div`
   }
 `;
 
-export default function CardReadMode({ card, faction }) {
+export default function CardReadMode({ card, faction, width = 357, height = 500 }) {
   return (
     <CardWrapper key={card.slug}>
       <img
         src={`${process.env.PUBLIC_URL}/images/${faction.slug}/${card.slug}.jpg`}
         alt={card.name}
-        width={300}
-        height={420}
+        width={width}
+        height={height}
       />
       {card["count"] ? <span>{card.count}</span> : null}
     </CardWrapper>

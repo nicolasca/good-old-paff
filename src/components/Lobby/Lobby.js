@@ -1,7 +1,7 @@
 import { collection, deleteDoc, doc, setDoc } from "firebase/firestore";
 import { useCallback, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useCollectionData } from "react-firebase-hooks/firestore";
+import { useDocumentData } from "react-firebase-hooks/firestore";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../..";
 import { useGameStore } from "../../contexts/GameContext";
@@ -16,7 +16,7 @@ export default function Lobby() {
 
 
   const lobbyRef = collection(db, "lobby");
-  const [lobby] = useCollectionData(lobbyRef, {
+  const [lobby] = useDocumentData(lobbyRef, {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
 
@@ -49,10 +49,10 @@ export default function Lobby() {
   
     if (isFull) {
       // Add this condition to ensure only the first player creates the game document
+      const names = lobby.map(({ displayName }) => displayName);
+      const gameName = `${names[0]} vs ${names[1]}`;
       if (lobby[0].email === user.email) {
         const randomName = Math.random().toString(36).substring(2, 7);
-        const names = lobby.map(({ displayName }) => displayName);
-        const gameName = `${names[0]} vs ${names[1]}`;
   
         await setDoc(doc(db, "game", randomName), {
           id: randomName,
@@ -65,7 +65,7 @@ export default function Lobby() {
       }
 
       // Both players navigate
-      navigate("/game", { replace: true });
+      navigate("/choose-deploy/" + gameName, { replace: true });
     }
     setCheckingLobby(false);
   }, [gameStore, checkingLobby, lobby, navigate, user.email]);
