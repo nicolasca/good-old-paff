@@ -15,7 +15,6 @@ export default function FormDeck() {
   const navigate = useNavigate();
 
   const handleSaveDeck = async () => {
-    console.log("try to save")
     const cardsToSave = deckInEdition.cards.filter((card) => {
       return card.count > 0;
     });
