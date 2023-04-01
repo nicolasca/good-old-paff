@@ -1,11 +1,11 @@
-import { GizmoHelper, GizmoViewport, OrbitControls, Plane, Text } from "@react-three/drei";
+import { Edges, GizmoHelper, GizmoViewport, MapControls, MeshTransmissionMaterial, OrbitControls, Plane, Text } from "@react-three/drei";
 import { Canvas, useThree } from "@react-three/fiber";
-import { useMemo } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useControls } from 'leva'
 import * as THREE from "three"
 
-const cardHeight = 1;
-const cardWidth = 0.5;
+const cardHeight = 1.4;
+const cardWidth = 1;
 const gapHeight = 0.2;
 const fieldHeight = (cardHeight * 6 + (gapHeight * 4) + 0.3) * 6
 const fieldWidth = (cardWidth * 12 + (gapHeight * 10) + 0.3) * 6
@@ -22,10 +22,14 @@ function CardField({ position, index, color }) {
         }
     })
 
+
     return (
         <Plane args={[cardWidth, cardHeight]} position={position} rotation={cardRotation}>
             <Text scale={0.2} anchorX="center" anchorY="middle" position-z={0.2} color="black">{index}</Text>
-            <meshBasicMaterial color={color} />
+            <meshBasicMaterial color={color} opacity={0.2}  transparent={!color}/>
+            <Edges visible={true}  scale={1} renderOrder={1000}>
+                <meshBasicMaterial transparent color="#333" depthTest={false} />
+             </Edges>
         </Plane>
     );
 }
@@ -37,6 +41,7 @@ function FogEffect() {
   }
 
 export default function Board({ gameStore }) {
+
     function generateCardFields(startColumn, endColumn, isIndexed = false, cardColor = undefined) {
         const cards = [];
         let cardIndex = 1;
@@ -96,14 +101,16 @@ export default function Board({ gameStore }) {
 
     return (
         <Canvas
-            camera={{
-                fov: 45,
-                near: 0.1,
-                far: 50,
-                position: [0, 0, 10]
-            }}
+            
+           camera={{ position: [0, 0, 5], zoom: 1, up: [0, 0, 1], far: 100 }}
+            // camera={{
+            //     fov: 45,
+            //     near: 0.1,
+            //     far: 50,
+            //     position: [0, 0, 10]
+            // }}
         >
-            <OrbitControls />
+            <MapControls />
             <GizmoHelper
                 alignment="bottom-right" // widget alignment within scene
                 margin={[80, 80]} // widget margins (X, Y)
@@ -112,17 +119,17 @@ export default function Board({ gameStore }) {
                 {/* alternative: <GizmoViewcube /> */}
             </GizmoHelper>
             <ambientLight />
-            <FogEffect />
+            {/* <FogEffect /> */}
             <group position={groupPosition} rotation={groupRotation}>
                 <Plane args={[fieldWidth, fieldHeight]}
                     visible={visible}
                     material-color={color}
                     position={planePosition} rotation={planeRotation} />
-                {leftField}
+                    {leftField}
+                    {middleField}
+                    {rightField}
                 {flancCoco}
-                {middleField}
                 {flancPomme}
-                {rightField}
             </group>
         </Canvas>
 
