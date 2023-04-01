@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDrop } from 'react-dnd';
 import styled from 'styled-components';
+import { useGameStore } from '../../../contexts/GameContext';
 
 const Square = styled.div`
 width: 100px;
@@ -9,11 +10,13 @@ width: 100px;
   border: 1px solid grey;
 `
 
-export function SquareDrop(props) {
+export function SquareDrop({children, squareId}) {
+
+  const gameStore = useGameStore()
 
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: 'card',
-    drop: (item) => props.moveCard(item),
+    drop: (item) => gameStore.onDrop({...item, squareId}),
     collect: mon => ({
       isOver: !!mon.isOver(),
       canDrop: !!mon.canDrop(),
@@ -27,7 +30,7 @@ export function SquareDrop(props) {
 
   return (
     <Square ref={drop} style={{ backgroundColor }}>
-      {props.children}
+      {children}
     </Square >
   );
 }

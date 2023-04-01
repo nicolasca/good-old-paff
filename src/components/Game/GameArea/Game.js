@@ -34,34 +34,30 @@ export default function Game() {
 
   // Fixtures
   const userUid = "yaG6Dx0JohaEn50fnaCyupuci3y2"
+  const displayName = "nicolas"
   const game = gameData;
 
   const hand = game.hands[userUid];
 
   const path = `${process.env.PUBLIC_URL}/images/elfes/sable-poison.jpg`
-  console.log(path)
 
   const deck = game.decks[userUid];
 
   // In the store there is player1 and player2. Get the one with the same uid
-  const currentPlayer = game.player1.uid === userUid ? game.player1 : game.player2;
-
+  const currentPlayer = game.player1.displayName === displayName ? game.player1 : game.player2;
   // Get the other player
-  const otherPlayer = game.player1.uid !== userUid ? game.player1 : game.player2;
+  const otherPlayer = game.player1.displayName !== displayName ? game.player1 : game.player2;
 
   // Get the player hand
   const playerHand = game.hands[userUid];
-
-  console.log(game.hands)
-  console.log(otherPlayer.uid)
-  // Get the other player hand
-  const otherPlayerHand = game.hands[otherPlayer.uid];
+  // Get the other player hand. Hands has the user uid as key
+  const otherPlayerHand = game.hands[Object.keys(game.hands).filter((key) => key !== userUid)[0]];
 
 
-  let cardsHand = playerHand.map((card, index) => {
+  const cardsHand = playerHand.map((card, index) => {
     return (
       <div className={styles.Card} key={index}>
-        <CardInGame unit={card} playerID={userUid} ></CardInGame>
+        <CardInGame unit={card} playerID={userUid} factionName={deck.faction.name}></CardInGame>
       </div>
     );
   });
@@ -100,27 +96,13 @@ export default function Game() {
       <DndProvider backend={HTML5Backend}>
 
         {/* Both top and bottom hands displayed during the deployment phase */}
-        <>
-          {userUid === game.player1 ? (
-            <div className={`${styles.Hand} ${styles.HandTop}`}>
-              {cardsHand}
-            </div>
-          ) : (
-            <div className={`${styles.Hand} ${styles.HandTop}`}>
-              {cardsOtherHand}
-            </div>
-          )}
+        <div className={`${styles.Hand} ${styles.HandTop}`}>
+          {cardsOtherHand}
+        </div>
 
-          {userUid === game.player2 ? (
-            <div className={`${styles.Hand} ${styles.HandBottom}`}>
-              {cardsHand}
-            </div>
-          ) : (
-            <div className={`${styles.Hand} ${styles.HandBottom}`}>
-              {cardsOtherHand}
-            </div>
-          )}
-        </>
+        <div className={`${styles.Hand} ${styles.HandBottom}`}>
+          {cardsHand}
+        </div>
 
         <div className={styles.GameInformationContainer}>
           <GameInformation

@@ -1,36 +1,37 @@
 import React, { useState } from "react";
-// import { useDrag } from "react-dnd";
+import { useDrag } from "react-dnd";
+import CardReadMode from "../../Cards/CardReadMode";
 // import CardUnit from "../../Decks/DeckItem/CardItem/CardUnit";
 // import { ItemTypes } from "./../Drag/ItemTypes";
-// import styles from "./CardInGame.module.scss";
+import styles from "./CardInGame.module.css";
 // import { PHASES } from "../../../game/PAFF";
 
-function CardInGame(props) {
-  // const [cardHover, setCardHover] = useState(false);
+function CardInGame({ unit, factionName, previousSquareId }) {
+  const [cardHover, setCardHover] = useState(true);
   // // let timerId;
   // // let plusClick = 0;
 
-  // const [{ isDragging }, drag] = useDrag({
-  //   item: {
-  //     type: ItemTypes.CARD,
-  //     card: props.unit,
-  //     previousSquareId: props.previousSquareId,
-  //   },
-  //   canDrag: () => {
-  //     // Possible drag on if
-  //     // - active player
-  //     // - APPLY ORDERS PHASE or DEPLOYMENT PHASE
+  const [{ isDragging }, drag] = useDrag({
+    item: {
+      card: unit,
+      previousSquareId
+    },
+    type: 'card',
+    // canDrag: () => {
+    //   // Possible drag on if
+    //   // - active player
+    //   // - APPLY ORDERS PHASE or DEPLOYMENT PHASE
 
-  //     return (
-  //       (props.ctx.phase === PHASES.DEPLOYMENT ||
-  //         props.ctx.phase === PHASES.FIGHT) &&
-  //       props.playerID !== null
-  //     );
-  //   },
-  //   collect: (monitor) => ({
-  //     isDragging: !!monitor.isDragging(),
-  //   }),
-  // });
+    //   return (
+    //     (props.ctx.phase === PHASES.DEPLOYMENT ||
+    //       props.ctx.phase === PHASES.FIGHT) &&
+    //     props.playerID !== null
+    //   );
+    // },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  });
 
   // Debounce function: Input as function which needs to be debounced and delay is the debounced time in milliseconds
   // const _debounceFunction = function (func, delay) {
@@ -41,26 +42,26 @@ function CardInGame(props) {
   //   timerId = setTimeout(func, delay)
   // }
 
-  // const onRightClickHandler = (event) => {
-  //   event.preventDefault();
-  //   setCardHover(true);
-  // };
+  const onRightClickHandler = (event) => {
+    event.preventDefault();
+    setCardHover(true);
+  };
 
-  // const onMouseLeaveHandler = () => {
-  //   setCardHover(false);
-  // };
+  const onMouseLeaveHandler = () => {
+    setCardHover(false);
+  };
 
   // const onClickPlusHandler = () => {
-    // console.log('plus');
-    // plusClick ++;
-    // if (props.moves) {
-    //   console.log(plusClick);
+  // console.log('plus');
+  // plusClick ++;
+  // if (props.moves) {
+  //   console.log(plusClick);
 
-    //   _debounceFunction(function() {
-    //     props.moves.changeRegimentNumber(props.previousSquareId, '+', plusClick);
-    //     plusClick = 0;
-    //   }, 1000);
-    // }
+  //   _debounceFunction(function() {
+  //     props.moves.changeRegimentNumber(props.previousSquareId, '+', plusClick);
+  //     plusClick = 0;
+  //   }, 1000);
+  // }
 
   //   if (props.moves && props.playerID) {
   //     props.moves.changeRegimentNumber(props.previousSquareId, "+");
@@ -75,9 +76,27 @@ function CardInGame(props) {
   // const imageUrl = !props.unit.image
   //   ? require(`../../../assets/logo.jpg`)
   //   : require(`../../../assets/cartes/${props.unit.faction.slug}/${props.unit.image}`);
-
   return (
-    <div>Carte </div>
+    <>
+      <div ref={drag} 
+      style={{
+        opacity: isDragging ? 0.5 : 1,
+        cursor: "move",
+      }}
+      onContextMenu={onRightClickHandler}
+      onMouseLeave={onMouseLeaveHandler}
+      >
+        <img src={`${process.env.PUBLIC_URL}/images/${factionName}/${unit.slug}.jpg`} alt="" />
+      </div>
+
+      {
+        cardHover ? (
+          <div className={styles.CardHover}>
+            <CardReadMode card={unit} faction={factionName}/>
+          </div>
+        ) : null
+      }
+    </>
     // <div
     //   className={[
     //     styles.CardUnit,
@@ -107,11 +126,6 @@ function CardInGame(props) {
     //     <p onClick={onClickLessHandler}>-</p>
     //   </div>
 
-    //   {cardHover ? (
-    //     <div className={styles.CardHover}>
-    //       <CardUnit unit={props.unit}></CardUnit>
-    //     </div>
-    //   ) : null}
     // </div>
   );
 }

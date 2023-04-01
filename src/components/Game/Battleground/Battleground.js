@@ -11,7 +11,7 @@ export function Battleground({game}) {
       <SquareDrop
         key={idLine + '_' + squareId}
         className={className}
-        square={squareId}
+        squareId={squareId}
         // moveCard={(item) => props.onDrop(item, squareId)}
         >
         {
