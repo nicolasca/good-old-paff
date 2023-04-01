@@ -1,7 +1,7 @@
 import { collection, deleteDoc, doc, setDoc } from "firebase/firestore";
 import { useCallback, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useDocumentData } from "react-firebase-hooks/firestore";
+import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../..";
 import { useGameStore } from "../../contexts/GameContext";
@@ -16,7 +16,7 @@ export default function Lobby() {
 
 
   const lobbyRef = collection(db, "lobby");
-  const [lobby] = useDocumentData(lobbyRef, {
+  const [lobby] = useCollectionData(lobbyRef, {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
 
@@ -39,6 +39,15 @@ export default function Lobby() {
     };
   }, [user.uid]);
 
+  function generateUniqueId(inputString) {
+    let sum = 0;
+    for (let i = 0; i < inputString.length; i++) {
+      sum += inputString.charCodeAt(i);
+    }
+    return "" + sum;
+  }
+  
+
   const checkLobbyIsFull = useCallback(async () => {
     if (checkingLobby) return;
     setCheckingLobby(true);
@@ -50,22 +59,21 @@ export default function Lobby() {
     if (isFull) {
       // Add this condition to ensure only the first player creates the game document
       const names = lobby.map(({ displayName }) => displayName);
-      const gameName = `${names[0]} vs ${names[1]}`;
+      const gameName  =`${names[0]} vs ${names[1]}`;
+      const gameId = generateUniqueId(gameName);
       if (lobby[0].email === user.email) {
-        const randomName = Math.random().toString(36).substring(2, 7);
-  
-        await setDoc(doc(db, "game", randomName), {
-          id: randomName,
-          name: `${names[0]} vs ${names[1]}`,
+        await setDoc(doc(db, "game", gameId), {
+          id: gameId,
+          name: gameName,
           player1: lobby[0],
           player2: lobby[1],
         });
-        gameStore.setId(randomName);
+        gameStore.setId(gameId);
         gameStore.setName(gameName);
       }
 
       // Both players navigate
-      navigate("/choose-deploy/" + gameName, { replace: true });
+      navigate("/choose-deck/" + gameId, { replace: true });
     }
     setCheckingLobby(false);
   }, [gameStore, checkingLobby, lobby, navigate, user.email]);

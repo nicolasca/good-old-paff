@@ -16,7 +16,7 @@ import Main from "./Main";
 import { DecksProvider } from "../../contexts/DecksContext";
 import ChooseDeck from "../Game/ChooseDeck";
 import GameStarted from "../Game/GameStarted";
-import ChooseDeploy from "../Game/ChooseDeploy";
+import ChooseDeploy from "../Game/ChooseDeploy/ChooseDeploy";
 
 const routes = (
   <Routes>
@@ -59,7 +59,7 @@ const routes = (
       }
     />
     <Route
-      path="/choose-deck"
+      path="/choose-deck/:gameId"
       element={
         // <ProtectedRoute>
           <ChooseDeck />
@@ -77,7 +77,7 @@ const routes = (
     />
 
         <Route
-      path="/game"
+      path="/game/:gameId"
       element={
         // <ProtectedRoute>
           <GameStarted />

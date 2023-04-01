@@ -10,10 +10,10 @@ import SelectDecks from "../Decks/SelectDecks";
 
 export default function ChooseDeck() {
 
+    const [hasValidated, setHasValidated] = useState(false);
+
     const navigate = useNavigate();
     const { gameId } = useParams()
-
-    console.log(gameId)
 
     const [selectedDeck, setSelectedDeck] = useState(null);
 
@@ -32,35 +32,37 @@ export default function ChooseDeck() {
 
     const handleValidateDeck = () => {
         gameStore.setDeck(selectedDeck, user.uid);
-        updateDoc(game, {
+        updateDoc(gameRef, {
             [`decks.${user.uid}`]: selectedDeck
         });
+        setHasValidated(true);
     }
 
     const checkBothPlayersValidated = useCallback(() => {
-        const twoPlayers = game.length === 2;
-        let playersReady = !game.some((p) => p.isReady === false);
-        const isFull = twoPlayers && playersReady;
+        if (! game?.decks) return;
+        const twoPlayers = Object.keys(game?.decks)?.length === 2;
+        const isFull = twoPlayers;
 
         if (isFull) {
-            navigate("/game", { replace: true });
+            navigate("/choose-deploy/" + gameId, { replace: true });
         }
-    }, [game, navigate]);
+    }, [game?.decks, gameId, navigate]);
 
     useEffect(() => {
-        // const player = game && game.find((p) => p.uid === user.uid);
-
-        if (game) {
+        if (game?.decks) {
             checkBothPlayersValidated();
         }
-    }, [game, checkBothPlayersValidated]);
+    }, [game?.decks, checkBothPlayersValidated]);
 
     return (
         <>
             <div> Choisir son deck</div>
             {user && gameStore && gameStore.decks[user.uid] && <div>Deck choisi : {gameStore.decks[user.uid].name}</div>}
             <SelectDecks decks={decks} onChange={(deck) => setSelectedDeck(deck)}/>
-            <button onClick={handleValidateDeck}>Valider</button>
+            {hasValidated && 
+                <button onClick={handleValidateDeck}>Valider</button>
+
+            }
         </>
     )
 }
