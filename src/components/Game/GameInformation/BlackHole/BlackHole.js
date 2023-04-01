@@ -1,0 +1,35 @@
+import React from 'react';
+import { useDrop } from 'react-dnd';
+
+function BlackHole(props) {
+  const [{ isOver, canDrop }, drop] = useDrop({
+    accept: 'card',
+    drop: (item) => props.removeCardFromBoard(item),
+    collect: mon => ({
+      isOver: !!mon.isOver(),
+      canDrop: !!mon.canDrop(),
+    }),
+  });
+
+  let styles = {
+    width: '100px',
+    height: '125px',
+    // height: '100%',
+  }
+
+  let backgroundColor = 'black';
+  if (canDrop && isOver) {
+    backgroundColor = 'grey';
+  }
+
+  styles = { ...styles, backgroundColor };
+
+  return (
+    <div>
+      <div>Défausse</div>
+      <div ref={drop} style={styles}></div>
+    </div >
+  );
+}
+
+export default BlackHole;

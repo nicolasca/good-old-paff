@@ -1,0 +1,60 @@
+.GameInformation {
+  display: flex;
+  flex-direction: column;
+
+  height: 100%;
+  background-color: white;
+  border: 1px solid grey;
+
+  .Players {
+    display: flex;
+    justify-content: space-around;
+    padding: 1rem;
+    border-bottom: 1px dashed black;
+  }
+
+  .Player {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.875rem;
+
+    h2 {
+      margin-bottom: 0;
+    }
+
+    input {
+      width: 5rem;
+      font-size: 1rem;
+    }
+  }
+
+  .BlackHoleReserve {
+    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 1rem;
+  }
+
+  .CommanderTable {
+    font-size: 0.875rem;
+    padding: 1rem;
+  }
+
+  .Deployment {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .FactionPlayer {
+    display: flex;
+    align-items: center;
+
+    img {
+      margin-left: 1rem;
+      max-width: 50px;
+      border-radius: 50%;
+    }
+  }
+}

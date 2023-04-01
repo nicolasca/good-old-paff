@@ -15,8 +15,8 @@ import { CardsProvider } from "../../contexts/CardsContext.js";
 import Main from "./Main";
 import { DecksProvider } from "../../contexts/DecksContext";
 import ChooseDeck from "../Game/ChooseDeck";
-import GameStarted from "../Game/GameStarted";
 import ChooseDeploy from "../Game/ChooseDeploy/ChooseDeploy";
+import Game from "../Game/GameArea/Game";
 
 const routes = (
   <Routes>
@@ -80,7 +80,7 @@ const routes = (
       path="/game/:gameId"
       element={
         // <ProtectedRoute>
-          <GameStarted />
+          <Game />
         // </ProtectedRoute>
       }
     />
