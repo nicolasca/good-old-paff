@@ -2,7 +2,7 @@ import { GizmoHelper, GizmoViewport, Html, MapControls, OrbitControls } from "@r
 import { Canvas } from "@react-three/fiber";
 import { collection } from "firebase/firestore";
 import { Leva } from "leva";
-import React from "react";
+import React, { useEffect } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -35,67 +35,47 @@ export default function Game() {
   // Fixtures
   const userUid = "yaG6Dx0JohaEn50fnaCyupuci3y2"
   const displayName = "nicolas"
-  const game = gameData;
+  const {init, hands,squares, decks, player1, player2} = useGameStore();
 
-  const hand = game.hands[userUid];
+  const gameFromFixture = gameData;
 
-  const path = `${process.env.PUBLIC_URL}/images/elfes/sable-poison.jpg`
+useEffect(() => {
+  init(gameFromFixture);
+}, [gameFromFixture, init]);
 
-  const deck = game.decks[userUid];
+
+  const hand = hands[userUid];
+  const deck = decks[userUid];
 
   // In the store there is player1 and player2. Get the one with the same uid
-  const currentPlayer = game.player1.displayName === displayName ? game.player1 : game.player2;
+  const currentPlayer = player1?.displayName === displayName ? player1 : player2;
   // Get the other player
-  const otherPlayer = game.player1.displayName !== displayName ? game.player1 : game.player2;
+  const otherPlayer = player1?.displayName !== displayName ? player1 : player2;
 
   // Get the player hand
-  const playerHand = game.hands[userUid];
+  const playerHand = hands[userUid];
   // Get the other player hand. Hands has the user uid as key
-  const otherPlayerHand = game.hands[Object.keys(game.hands).filter((key) => key !== userUid)[0]];
+  const otherPlayerHand = hands[Object.keys(hands).filter((key) => key !== userUid)[0]];
 
 
-  const cardsHand = playerHand.map((card, index) => {
+  const cardsHand = playerHand?.map((card, index) => {
     return (
       <div className={styles.Card} key={index}>
-        <CardInGame unit={card} playerID={userUid} factionName={deck.faction.name}></CardInGame>
+        <CardInGame unit={card} playerID={userUid}></CardInGame>
       </div>
     );
   });
 
-  const cardsOtherHand = otherPlayerHand.map((card, index) => {
+  const cardsOtherHand = otherPlayerHand?.map((card, index) => {
     return <div className={styles.HiddenCard} key={index}></div>;
   });
 
   return (
     <div className={styles.ScreenGame}>
 
-      {/* <Leva collapsed /> */}
-      {/* <Canvas camera={{ position: [0, 0, 5], zoom: 1, up: [0, 0, 1], far: 100 }}> */}
-      {/* <Canvas camera={{ position: [0, 0, 15] }}>
-        <MapControls makeDefault /> */}
-      {/* <OrbitControls makeDefault /> */}
-      {/* <GizmoHelper
-          alignment="bottom-right"
-          margin={[80, 80]}
-        >
-          <GizmoViewport axisColors={['red', 'green', 'blue']} labelColor="black" />
-
-        </GizmoHelper>
-        <ambientLight />
-       <CardInGame path={path} />
-        <group>
-          {cards}
-        </group>
-         <Board />  
-        <Html position={[-4,0,0]} transform castShadow receiveShadow>
-        {htmlCards}
-        </Html>
-      </Canvas>
-        {htmlCards} */}
-
       <DndProvider backend={HTML5Backend}>
-
         {/* Both top and bottom hands displayed during the deployment phase */}
+
         <div className={`${styles.Hand} ${styles.HandTop}`}>
           {cardsOtherHand}
         </div>
@@ -104,18 +84,23 @@ export default function Game() {
           {cardsHand}
         </div>
 
+    {
+      player1 &&
+
         <div className={styles.GameInformationContainer}>
           <GameInformation
-            player1={game.player1}
-            player2={game.player2}
-            decks={game.decks}
+            player1={player1}
+            player2={player2}
+            decks={decks}
             playerUid={userUid}
           ></GameInformation>
         </div>
+    }
 
         <div className={styles.BattlegroundContainer}>
-          <Battleground game={game} />
+          <Battleground squares={squares} userUid={userUid} />
         </div>
+
       </DndProvider>
     </div>
   );

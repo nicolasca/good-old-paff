@@ -6,8 +6,8 @@ import CardReadMode from "../../Cards/CardReadMode";
 import styles from "./CardInGame.module.css";
 // import { PHASES } from "../../../game/PAFF";
 
-function CardInGame({ unit, factionName, previousSquareId }) {
-  const [cardHover, setCardHover] = useState(true);
+function CardInGame({ unit, previousSquareId }) {
+  const [cardHover, setCardHover] = useState(false);
   // // let timerId;
   // // let plusClick = 0;
 
@@ -76,9 +76,11 @@ function CardInGame({ unit, factionName, previousSquareId }) {
   // const imageUrl = !props.unit.image
   //   ? require(`../../../assets/logo.jpg`)
   //   : require(`../../../assets/cartes/${props.unit.faction.slug}/${props.unit.image}`);
+
   return (
     <>
-      <div ref={drag} 
+      <div className={styles.CardUnit}
+      ref={drag} 
       style={{
         opacity: isDragging ? 0.5 : 1,
         cursor: "move",
@@ -86,16 +88,16 @@ function CardInGame({ unit, factionName, previousSquareId }) {
       onContextMenu={onRightClickHandler}
       onMouseLeave={onMouseLeaveHandler}
       >
-        <img src={`${process.env.PUBLIC_URL}/images/${factionName}/${unit.slug}.jpg`} alt="" />
-      </div>
+        <img src={`${process.env.PUBLIC_URL}/images/${unit.faction.slug}/${unit.slug}.jpg`} alt="" />
 
-      {
+        {
         cardHover ? (
           <div className={styles.CardHover}>
-            <CardReadMode card={unit} faction={factionName}/>
+            <CardReadMode card={unit} faction={unit.faction} displayCount={false}/>
           </div>
         ) : null
       }
+      </div>
     </>
     // <div
     //   className={[

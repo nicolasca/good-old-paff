@@ -4,7 +4,7 @@ import { SquareDrop } from '../SquareDrop/SquareDrop';
 import styles from './Battleground.module.css';
 
 
-export function Battleground({game}) {
+export function Battleground({squares, userUid}) {
 
   const renderSquare = (idLine, squareId, className) => {
     return (
@@ -12,13 +12,13 @@ export function Battleground({game}) {
         key={idLine + '_' + squareId}
         className={className}
         squareId={squareId}
-        // moveCard={(item) => props.onDrop(item, squareId)}
+        userUid={userUid}
         >
         {
-          game.squares[squareId] ?
+          squares[squareId] ?
             <CardInGame
               // playerID={props.playerID}
-              unit={game.squares[squareId]}
+              unit={squares[squareId]}
               previousSquareId={squareId}
               // moves={props.moves}
               >

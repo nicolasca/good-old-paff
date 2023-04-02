@@ -16,13 +16,13 @@ function GameInformation({
     <div className={styles.GameInformation}>
       <div className={styles.Players}>
         <Player
-          playerName={player1.name}
+          playerName={player1.displayName}
           playerNumber={0}
           factionName={decks[playerUid].faction.name}
         ></Player>
 
         <Player
-          playerName={player2.name}
+          playerName={player2.displayName}
           playerNumber={1}
           factionName={decks[playerUid].faction.name}
         ></Player>

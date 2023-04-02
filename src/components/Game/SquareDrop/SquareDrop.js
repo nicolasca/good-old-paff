@@ -10,13 +10,13 @@ width: 100px;
   border: 1px solid grey;
 `
 
-export function SquareDrop({children, squareId}) {
+export function SquareDrop({children, squareId, userUid}) {
 
-  const gameStore = useGameStore()
+  const { onDrop} = useGameStore()
 
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: 'card',
-    drop: (item) => gameStore.onDrop({...item, squareId}),
+    drop: (item) => onDrop({...item, newSquareId: squareId, userUid}),
     collect: mon => ({
       isOver: !!mon.isOver(),
       canDrop: !!mon.canDrop(),
