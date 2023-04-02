@@ -1,24 +1,32 @@
-import { collection, deleteDoc, doc, setDoc } from "firebase/firestore";
+import { collection, deleteDoc, doc, onSnapshot, query, setDoc } from "firebase/firestore";
 import { useCallback, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../..";
 import { useGameStore } from "../../contexts/GameContext";
 
 export default function Lobby() {
   const [checkingLobby, setCheckingLobby] = useState(false);
+  const [lobbies, setLobbies] = useState(false);
   const navigate = useNavigate();
   const [user] = useAuthState(auth);
   const [userInLobby, setUserInLobby] = useState(false);
-
   const gameStore = useGameStore();
 
+  useEffect(() => {
+    const q = query(collection(db, "lobby"))
 
-  const lobbyRef = collection(db, "lobby");
-  const [lobby] = useCollectionData(lobbyRef, {
-    snapshotListenOptions: { includeMetadataChanges: true },
-  });
+    const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
+      const lobbies = [];
+      QuerySnapshot.forEach((doc) => {
+        lobbies.push({ ...doc.data(), id: doc.id });
+      });
+      setLobbies(lobbies);
+
+    });
+    return () => unsubscribe;
+
+  }, [])
 
   // When the component is unmounted, leave the lobby
   useEffect(() => {
@@ -46,27 +54,27 @@ export default function Lobby() {
     }
     return "" + sum;
   }
-  
+
 
   const checkLobbyIsFull = useCallback(async () => {
     if (checkingLobby) return;
     setCheckingLobby(true);
-  
-    const twoPlayers = lobby.length === 2;
-    let playersReady = !lobby.some((p) => p.isReady === false);
+
+    const twoPlayers = lobbies.length === 2;
+    let playersReady = !lobbies.some((p) => p.isReady === false);
     const isFull = twoPlayers && playersReady;
-  
+
     if (isFull) {
       // Add this condition to ensure only the first player creates the game document
-      const names = lobby.map(({ displayName }) => displayName);
-      const gameName  =`${names[0]} vs ${names[1]}`;
+      const names = lobbies.map(({ displayName }) => displayName);
+      const gameName = `${names[0]} vs ${names[1]}`;
       const gameId = generateUniqueId(gameName);
-      if (lobby[0].email === user.email) {
+      if (lobbies[0].email === user.email) {
         await setDoc(doc(db, "game", gameId), {
           id: gameId,
           name: gameName,
-          player1: lobby[0],
-          player2: lobby[1],
+          player1: lobbies[0],
+          player2: lobbies[1],
         });
         gameStore.setId(gameId);
         gameStore.setName(gameName);
@@ -76,20 +84,20 @@ export default function Lobby() {
       navigate("/choose-deck/" + gameId, { replace: true });
     }
     setCheckingLobby(false);
-  }, [gameStore, checkingLobby, lobby, navigate, user.email]);
+  }, [checkingLobby, lobbies, user.email, navigate, gameStore]);
 
   useEffect(() => {
-    const player = lobby && lobby.find((p) => p.email === user.email);
+    const player = lobbies && lobbies.find((p) => p.email === user.email);
     if (player) {
       setUserInLobby(player);
     } else {
       setUserInLobby(null);
     }
 
-    if (lobby) {
+    if (lobbies) {
       checkLobbyIsFull();
     }
-  }, [lobby, user.email, checkLobbyIsFull]);
+  }, [user.email, checkLobbyIsFull, lobbies]);
 
   const joinLobby = async () => {
     await setDoc(doc(db, "lobby", user.uid), {
@@ -117,9 +125,9 @@ export default function Lobby() {
     <div>
       <h1>Lobby</h1>
 
-      {lobby && (
+      {lobbies && (
         <div>
-          {lobby.map((player) => {
+          {lobbies.map((player) => {
             return (
               <article key={player.email}>
                 <p>

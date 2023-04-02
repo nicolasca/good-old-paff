@@ -1,13 +1,13 @@
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, onSnapshot, query, updateDoc } from "firebase/firestore";
 import { useCallback, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useDocumentData } from "react-firebase-hooks/firestore";
 import { useNavigate, useParams } from "react-router-dom";
 import { auth, db } from "../../..";
 import CardListDeploy from "./CardListDeploy";
 
 export default function ChooseDeploy() {
 
+  const [game, setGame] = useState(null);
   const [cards, setCards] = useState([]);
   const [deck, setDeck] = useState([]);
   const [selectedCards, setSelectedCards] = useState(new Set());
@@ -18,10 +18,15 @@ export default function ChooseDeploy() {
 
   //Get the game
   const [user] = useAuthState(auth);
-  const gameRef = doc(db, "game", gameId);
-  const [game] = useDocumentData(gameRef, {
-    snapshotListenOptions: { includeMetadataChanges: false },
-  });
+
+  useEffect(() => {
+    const q = query(doc(db, "game", gameId))
+    const unsubscribe = onSnapshot(q, (doc) => {
+        setGame(doc.data())
+    });
+
+    return () => unsubscribe;
+}, [gameId])
 
   useEffect(() => {
     if (game?.decks && user?.uid) {
@@ -32,6 +37,7 @@ export default function ChooseDeploy() {
         for (let i = 0; i < card.count; i++) {
           const cardCopy = { ...card };
           let cardGameId = `${index}-${i}`;
+          cardCopy["faction"] = game.decks[user.uid].faction;
           cardCopy["gameCardId"] = cardGameId;
           acc.push(cardCopy);
         }
@@ -49,7 +55,7 @@ export default function ChooseDeploy() {
     // Create a hand with the selectedCards. 
     const newHand = selectedCards.size > 0 ? cards.filter((card) => selectedCards.has(card.gameCardId)) : [];
 
-    updateDoc(gameRef, {
+    updateDoc(doc(db, "game", gameId), {
       [`hands.${user.uid}`]: newHand,
       [`cards.${user.uid}`]: cardsToKeep
     });

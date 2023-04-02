@@ -1,4 +1,4 @@
-import { OrbitControls, Plane, useTexture } from "@react-three/drei";
+import { OrbitControls, Plane } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { useMemo } from "react";
 

@@ -1,7 +1,6 @@
-import { doc, updateDoc } from "firebase/firestore";
+import {  doc, onSnapshot, query, updateDoc } from "firebase/firestore";
 import { useCallback, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useDocumentData } from "react-firebase-hooks/firestore";
 import { useNavigate, useParams } from "react-router-dom";
 import { auth, db } from "../..";
 import { useDecks } from "../../contexts/DecksContext";
@@ -11,6 +10,7 @@ import SelectDecks from "../Decks/SelectDecks";
 export default function ChooseDeck() {
 
     const [hasValidated, setHasValidated] = useState(false);
+    const [game, setGame] = useState(null);
 
     const navigate = useNavigate();
     const { gameId } = useParams()
@@ -21,10 +21,15 @@ export default function ChooseDeck() {
     const [user] = useAuthState(auth);
     const { decks } = useDecks();
     const gameStore = useGameStore();
-    const gameRef = doc(db, "game", gameId);
-    const [game] = useDocumentData(gameRef, {
-        snapshotListenOptions: { includeMetadataChanges: false },
-    });
+
+    useEffect(() => {
+        const q = query(doc(db, "game", gameId))
+        const unsubscribe = onSnapshot(q, (doc) => {
+            setGame(doc.data())
+        });
+
+        return () => unsubscribe;
+    }, [gameId])
 
     useEffect(() => {
         setSelectedDeck(decks[0]);
@@ -32,14 +37,14 @@ export default function ChooseDeck() {
 
     const handleValidateDeck = () => {
         gameStore.setDeck(selectedDeck, user.uid);
-        updateDoc(gameRef, {
+        updateDoc(doc(db, "game", gameId), {
             [`decks.${user.uid}`]: selectedDeck
         });
         setHasValidated(true);
     }
 
     const checkBothPlayersValidated = useCallback(() => {
-        if (! game?.decks) return;
+        if (!game?.decks) return;
         const twoPlayers = Object.keys(game?.decks)?.length === 2;
         const isFull = twoPlayers;
 
@@ -58,8 +63,8 @@ export default function ChooseDeck() {
         <>
             <div> Choisir son deck</div>
             {user && gameStore && gameStore.decks[user.uid] && <div>Deck choisi : {gameStore.decks[user.uid].name}</div>}
-            <SelectDecks decks={decks} onChange={(deck) => setSelectedDeck(deck)}/>
-            {hasValidated && 
+            <SelectDecks decks={decks} onChange={(deck) => setSelectedDeck(deck)} />
+            {!hasValidated &&
                 <button onClick={handleValidateDeck}>Valider</button>
 
             }
